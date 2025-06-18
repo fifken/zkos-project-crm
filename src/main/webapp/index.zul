@@ -1,130 +1,33 @@
 <zk>
-	<window>
-		
-		<image src="https://images.seeklogo.com/logo-png/56/2/finatra-fifgroup-logo-png_seeklogo-568384.png" width="150px" height="auto" />
-		
-		<!-- Tabel Utama -->
-		<grid sclass="crm-table">
-			<columns>
-				<column label="Nama"/>
-				<column label="No Kontrak"/>
-				<column label="Total Hutang"/>
-				<column label="Sisa Hutang"/>
-				<column label="Status"/>
-				<column label=" "/>
-			</columns>
-			<rows>
-				<row>
-				    <label value="Wati"/>
-				    <label value="001"/>
-				    <label value="12.000.000"/>
-				    <label value="6.000.000"/>
-				    <label value="Belum Lunas"/>
-					<hlayout>
-				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="detailWin.setVisible(true);"/>
-        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="deleteConfirm.setVisible(true);"/>
-    				</hlayout>
-				</row>
-				<!-- Tambahkan baris lain jika perlu -->
-			</rows>
-		</grid>
-
-		<!-- POPUP VIEW DETAIL NASABAH -->
-		<window id="detailWin" title="Detail Nasabah" width="1000px" mode="modal" closable="true" visible="false">
-			<vlayout spacing="10px">
-				<label value="No Kontrak: 001"/>
-				<label value="Nama: Wati"/>
-				<label value="Cabang: Jakarta"/>
-				<label value="Total Hutang: 12.000.000"/>
-				
-				<hlayout>
-				        <label value="Paid: "/>
-						<textbox value ="6.000.000"/>
-    			</hlayout>
-				<label value="Sisa Hutang: 6.000.000"/>
-				<hlayout>
-				        <button label="Ubah" onClick="statusUpt.setVisible(true)"/>
-        				<button label="Tutup" onClick="detailWin.setVisible(false);"/>
-    			</hlayout>
-			</vlayout>
-		</window>
-
-		<!-- POPUP VIEW DETAIL NASABAH -->
-		<window id="statusUpt" title="Data berhasil Diubah" width="300px" mode="modal" closable="true" visible="false">
-			<vlayout spacing="10px">		
-        				<button label="Tutup" onClick="statusUpt.setVisible(false);"/>
-			</vlayout>
-		</window>
-
-		<!-- KONFIRMASI DELETE -->
-		<window id="deleteConfirm" title="Konfirmasi Hapus" width="300px" mode="modal" closable="true" visible="false">
-			<vlayout spacing="10px">
-				<label value="Apakah Anda yakin ingin menghapus data ini?"/>
-				<hlayout>
-					<button label="Ya" onClick="deleteConfirm.setVisible(false); statusDlt.setVisible(true);"/>
-					<button label="Batal" onClick="deleteConfirm.setVisible(false);"/>
-				</hlayout>
-			</vlayout>
-		</window>
-		<!-- POPUP Delete -->
-		<window id="statusDlt" title="Data berhasil Dihapus!" width="300px" mode="modal" closable="true" visible="false">
-			<vlayout spacing="10px">		
-        				<button label="Tutup" onClick="statusDlt.setVisible(false);"/>
-			</vlayout>
-		</window>
-
-		<!-- TOMBOL TAMBAH -->
-        <div align="right" style="margin-top: 10px;">
-            <button iconSclass="z-icon-plus" sclass="add-button" tooltiptext="Tambah Nasabah" onClick="addWin.setVisible(true);"/>
-        </div>
-
-        <!-- FORM TAMBAH NASABAH -->
-        <window id="addWin" title="Tambah Nasabah Baru" width="350px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" style="padding:10px;">
-                <textbox id="namaBox" placeholder="Nama"/>
-                <textbox id="cabangBox" placeholder="Cabang"/>
-                <textbox id="hutangBox" placeholder="Total Hutang"/>
-                <textbox id="paidBox" placeholder="Paid"/>
-                <textbox id="sisaBox" placeholder="Sisa Hutang"/>
-
-                <hlayout>
-                    <button label="Batal" onClick="addWin.setVisible(false);"/>
-                    <button label="Tambah" onClick="                    if (namaBox.getValue().isEmpty() || 
-                                cabangBox.getValue().isEmpty() || 
-                                hutangBox.getValue().isEmpty() || 
-                                paidBox.getValue().isEmpty() || 
-                                sisaBox.getValue().isEmpty()) {
-                        Clients.showNotification(&quot;Semua field wajib diisi!&quot;, &quot;warning&quot;, null, &quot;middle_center&quot;, 2000);
-                    } else {
-                        Row row = new Row();
-                        row.appendChild(new Label(namaBox.getValue()));
-                        row.appendChild(new Label(cabangBox.getValue()));
-                        row.appendChild(new Label(hutangBox.getValue()));
-                        row.appendChild(new Label(paidBox.getValue()));
-                        row.appendChild(new Label(sisaBox.getValue()));
-
-                        Hlayout actions = new Hlayout();
-                        Button viewBtn = new Button();
-                        viewBtn.setSclass(&quot;action-btn&quot;);
-                        viewBtn.setIconSclass(&quot;z-icon-search&quot;);
-                        viewBtn.setOnClickListener(e -&gt; detailWin.setVisible(true));
-                        
-                        Button delBtn = new Button();
-                        delBtn.setSclass(&quot;action-btn&quot;);
-                        delBtn.setIconSclass(&quot;z-icon-trash&quot;);
-                        delBtn.setOnClickListener(e -&gt; deleteConfirm.setVisible(true));
-
-                        actions.appendChild(viewBtn);
-                        actions.appendChild(delBtn);
-                        row.appendChild(actions);
-
-                        nasabahRows.appendChild(row);
-                        addWin.setVisible(false);
-                        Clients.showNotification(&quot;Data berhasil ditambahkan&quot;, &quot;info&quot;, null, &quot;middle_center&quot;, 2000);
-                    }"/>
-                </hlayout>
-            </vlayout>
-        </window>
-
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('com.zkos.crm.MyViewModel')"
+		validationMessages="@id('vmsgs')" width="600px" vflex="1">
+		<vlayout>
+			<hbox align="center" hflex="1">
+				Log message: <textbox value="@save(vm.message)"
+					onOK="@command('addLog')" hflex="1" placeholder="What happened?" />
+				<button label="add" onClick="@command('addLog')" />
+			</hbox>
+			<listbox model="@bind(vm.logListModel)" rows="10">
+				<listhead>
+					<listheader hflex="min" />
+					<listheader hflex="min" />
+					<listheader />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell>
+							<button label="delete" onClick="@command('deleteLog', log=each)" />
+						</listcell>
+						<listcell>
+							<label value="@bind(each.date) @converter('formattedDate', format='yyyy/MM/dd HH:mm:ss')" />
+						</listcell>
+						<listcell>
+							<label value="@bind(each.message)" />
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
 	</window>
 </zk>

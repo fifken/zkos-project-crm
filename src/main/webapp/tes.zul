@@ -1,0 +1,7 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="template.zul"?>
+<zk>
+
+    <window self="@define(content)" border="normal" width="100%" height="100%">
+        
+    </window>
+</zk>
