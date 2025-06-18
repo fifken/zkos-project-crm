@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="CRM Template" contentType="text/html;charset=UTF-8"?>
+
+<zk>
+    <borderlayout width="100%" height="100%">
+        
+        <!-- Header -->
+        <north size="60px" splittable="false" collapsible="false">
+            <hbox style="background:#2d3e50; color:white; padding:10px">
+                <label value="📊 CRM System" style="font-size:18px; font-weight:bold"/>
+                <space width="20px"/>
+                <label value="Welcome, User" />
+            </hbox>
+        </north>
+        
+        <!-- Sidebar -->
+        <west size="220px" splittable="true" collapsible="true">
+            <vlayout style="background:#f0f0f0; padding:10px">
+                <label value="🏠 Dashboard" />
+                <label value="📋 Hutang Piutang" />
+                <label value="⚙️ Settings" />
+            </vlayout>
+        </west>
+        
+        <!-- Main Content -->
+        <center>
+            <include src="index.zul"/> <!-- Halaman utama bisa diatur via include -->
+        </center>
+        
+        <!-- Footer (optional) -->
+        <south size="30px">
+            <label value="© 2025 Your Company" style="font-size:12px; color:#888888; padding:5px"/>
+        </south>
+
+    </borderlayout>
+</zk>

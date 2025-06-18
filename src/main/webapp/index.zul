@@ -1,5 +1,8 @@
 <zk>
 	<window>
+		
+		<image src="https://images.seeklogo.com/logo-png/56/2/finatra-fifgroup-logo-png_seeklogo-568384.png" width="150px" height="auto" />
+		
 		<!-- Tabel Utama -->
 		<grid sclass="crm-table">
 			<columns>
@@ -69,6 +72,59 @@
         				<button label="Tutup" onClick="statusDlt.setVisible(false);"/>
 			</vlayout>
 		</window>
+
+		<!-- TOMBOL TAMBAH -->
+        <div align="right" style="margin-top: 10px;">
+            <button iconSclass="z-icon-plus" sclass="add-button" tooltiptext="Tambah Nasabah" onClick="addWin.setVisible(true);"/>
+        </div>
+
+        <!-- FORM TAMBAH NASABAH -->
+        <window id="addWin" title="Tambah Nasabah Baru" width="350px" mode="modal" closable="true" visible="false">
+            <vlayout spacing="10px" style="padding:10px;">
+                <textbox id="namaBox" placeholder="Nama"/>
+                <textbox id="cabangBox" placeholder="Cabang"/>
+                <textbox id="hutangBox" placeholder="Total Hutang"/>
+                <textbox id="paidBox" placeholder="Paid"/>
+                <textbox id="sisaBox" placeholder="Sisa Hutang"/>
+
+                <hlayout>
+                    <button label="Batal" onClick="addWin.setVisible(false);"/>
+                    <button label="Tambah" onClick="                    if (namaBox.getValue().isEmpty() || 
+                                cabangBox.getValue().isEmpty() || 
+                                hutangBox.getValue().isEmpty() || 
+                                paidBox.getValue().isEmpty() || 
+                                sisaBox.getValue().isEmpty()) {
+                        Clients.showNotification(&quot;Semua field wajib diisi!&quot;, &quot;warning&quot;, null, &quot;middle_center&quot;, 2000);
+                    } else {
+                        Row row = new Row();
+                        row.appendChild(new Label(namaBox.getValue()));
+                        row.appendChild(new Label(cabangBox.getValue()));
+                        row.appendChild(new Label(hutangBox.getValue()));
+                        row.appendChild(new Label(paidBox.getValue()));
+                        row.appendChild(new Label(sisaBox.getValue()));
+
+                        Hlayout actions = new Hlayout();
+                        Button viewBtn = new Button();
+                        viewBtn.setSclass(&quot;action-btn&quot;);
+                        viewBtn.setIconSclass(&quot;z-icon-search&quot;);
+                        viewBtn.setOnClickListener(e -&gt; detailWin.setVisible(true));
+                        
+                        Button delBtn = new Button();
+                        delBtn.setSclass(&quot;action-btn&quot;);
+                        delBtn.setIconSclass(&quot;z-icon-trash&quot;);
+                        delBtn.setOnClickListener(e -&gt; deleteConfirm.setVisible(true));
+
+                        actions.appendChild(viewBtn);
+                        actions.appendChild(delBtn);
+                        row.appendChild(actions);
+
+                        nasabahRows.appendChild(row);
+                        addWin.setVisible(false);
+                        Clients.showNotification(&quot;Data berhasil ditambahkan&quot;, &quot;info&quot;, null, &quot;middle_center&quot;, 2000);
+                    }"/>
+                </hlayout>
+            </vlayout>
+        </window>
 
 	</window>
 </zk>
