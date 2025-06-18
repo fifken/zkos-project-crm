@@ -57,10 +57,10 @@
         <!-- Sidebar -->
         <west size="200px" splittable="true" collapsible="true">
             <vlayout sclass="sidebar">
-                <label value="🏠 Dashboard" onClick='contentInclude.setSrc("dashboard.zul")'/>
-                <label value="📄 Data Nasabah" onClick='contentInclude.setSrc("nasabah.zul")'/>
-                <label value="📊 Laporan" onClick='contentInclude.setSrc("laporan.zul")'/>
-                <label value="⚙️ Pengaturan" onClick='contentInclude.setSrc("pengaturan.zul")'/>
+                <label value="🏠 FINATRA" onClick='contentInclude.setSrc("finatra.zul")'/>
+                <label value="📄 FIFASTRA" onClick='contentInclude.setSrc("fifastra.zul")'/>
+                <label value="📊 DANASTRA" onClick='contentInclude.setSrc("danastra.zul")'/>
+                <label value="⚙️ SPEKTRA" onClick='contentInclude.setSrc("spektra.zul")'/>
             </vlayout>
         </west>
 

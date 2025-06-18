@@ -1,7 +1,7 @@
 package com.zkos.crm;
 
-import com.zkos.crm.entity.Log;
-import com.zkos.crm.services.MyService;
+import com.zkos.crm.entity.Nasabah;
+import com.zkos.crm.services.NasabahService;
 import java.util.List;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -16,17 +16,17 @@ import org.zkoss.zul.ListModelList;
 public class MyViewModel {
 
 	@WireVariable
-	private MyService myService;
-	private ListModelList<Log> logListModel;
+	private NasabahService myService;
+	private ListModelList<Nasabah> logListModel;
 	private String message;
 
 	@Init
 	public void init() {
-		List<Log> logList = myService.getLogs();
-		logListModel = new ListModelList<Log>(logList);
+		List<Nasabah> logList = myService.getLogs();
+		logListModel = new ListModelList<Nasabah>(logList);
 	}
 
-	public ListModel<Log> getLogListModel() {
+	public ListModel<Nasabah> getLogListModel() {
 		return logListModel;
 	}
 
@@ -43,13 +43,13 @@ public class MyViewModel {
 		if(Strings.isBlank(message)) {
 			return;
 		}
-		Log log = new Log(message);
+		Nasabah log = new Nasabah(message);
 		log = myService.addLog(log);
 		logListModel.add(log);
 	}
 
 	@Command
-	public void deleteLog(@BindingParam("log") Log log) {
+	public void deleteLog(@BindingParam("log") Nasabah log) {
 		myService.deleteLog(log);
 		logListModel.remove(log);
 	}
