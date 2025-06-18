@@ -1,5 +1,6 @@
 <zk>
 	<window>
+		<!-- Tabel Utama -->
 		<grid sclass="crm-table">
 			<columns>
 				<column label="Nama"/>
@@ -11,119 +12,63 @@
 			</columns>
 			<rows>
 				<row>
-					<label value="Agus"/>
-					<label value="0001"/>
-					<label value="10.000.000"/>
-					<label value="7.000.000"/>
-					<label value="Belum Lunas"/>
-					<hlayout>
-						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-					</hlayout>
-
-				</row>
-				<row>
-					<label value="Budi"/>
-					<label value="0002"/>
-					<label value="5.000.000"/>
-					<label value="0"/>
-					<label value="Lunas"/>
-					<hlayout>
-						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-					</hlayout>
-				</row>
-				<row>
-					<label value="Dono"/>
-					<label value="0003"/>
-					<label value="20.000.000"/>
-					<label value="10.000.000"/>
-					<label value="Belum Lunas"/>
-					<hlayout>
-						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-					</hlayout>
-				</row>
-				<row>
-    				<label value="Siti"/>
-    				<label value="0004"/>
-    				<label value="15.000.000"/>
-    				<label value="5.000.000"/>
-    				<label value="Belum Lunas"/>
-    				<hlayout>
-        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-    				</hlayout>
-					</row>
-				<row>
-    				<label value="Budi"/>
-    				<label value="0005"/>
-    				<label value="25.000.000"/>
-    				<label value="0"/>
-    				<label value="Lunas"/>
-    				<hlayout>
-        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-    				</hlayout>
-				</row>
-				<row>
-    				<label value="Tini"/>
-    				<label value="0006"/>
-    				<label value="30.000.000"/>
-    				<label value="15.000.000"/>
-    				<label value="Belum Lunas"/>
-    				<hlayout>
-    				    <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-    				    <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-    				</hlayout>
-				</row>
-				<row>
-				    <label value="Joko"/>
-				    <label value="0007"/>
-				    <label value="10.000.000"/>
-				    <label value="0"/>
-				    <label value="Lunas"/>
-				    <hlayout>
-			        	<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-				        <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-    				</hlayout>
-				</row>
-				<row>
-				    <label value="Rina"/>
- 				    <label value="0008"/>
-				    <label value="18.000.000"/>
-				    <label value="8.000.000"/>
-				    <label value="Belum Lunas"/>
- 				    <hlayout>
-        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-    				</hlayout>
-				</row>
-				<row>
-				    <label value="Anto"/>
-				    <label value="0009"/>
-				    <label value="22.000.000"/>
-				    <label value="0"/>
-				    <label value="Lunas"/>
-				    <hlayout>
-				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-				        <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
-				    </hlayout>
-				</row>
-				<row>
 				    <label value="Wati"/>
-				    <label value="0010"/>
+				    <label value="001"/>
 				    <label value="12.000.000"/>
 				    <label value="6.000.000"/>
 				    <label value="Belum Lunas"/>
 					<hlayout>
-				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
-        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="detailWin.setVisible(true);"/>
+        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="deleteConfirm.setVisible(true);"/>
     				</hlayout>
 				</row>
-
 				<!-- Tambahkan baris lain jika perlu -->
 			</rows>
 		</grid>
+
+		<!-- POPUP VIEW DETAIL NASABAH -->
+		<window id="detailWin" title="Detail Nasabah" width="1000px" mode="modal" closable="true" visible="false">
+			<vlayout spacing="10px">
+				<label value="No Kontrak: 001"/>
+				<label value="Nama: Wati"/>
+				<label value="Cabang: Jakarta"/>
+				<label value="Total Hutang: 12.000.000"/>
+				
+				<hlayout>
+				        <label value="Paid: "/>
+						<textbox value ="6.000.000"/>
+    			</hlayout>
+				<label value="Sisa Hutang: 6.000.000"/>
+				<hlayout>
+				        <button label="Ubah" onClick="statusUpt.setVisible(true)"/>
+        				<button label="Tutup" onClick="detailWin.setVisible(false);"/>
+    			</hlayout>
+			</vlayout>
+		</window>
+
+		<!-- POPUP VIEW DETAIL NASABAH -->
+		<window id="statusUpt" title="Data berhasil Diubah" width="300px" mode="modal" closable="true" visible="false">
+			<vlayout spacing="10px">		
+        				<button label="Tutup" onClick="statusUpt.setVisible(false);"/>
+			</vlayout>
+		</window>
+
+		<!-- KONFIRMASI DELETE -->
+		<window id="deleteConfirm" title="Konfirmasi Hapus" width="300px" mode="modal" closable="true" visible="false">
+			<vlayout spacing="10px">
+				<label value="Apakah Anda yakin ingin menghapus data ini?"/>
+				<hlayout>
+					<button label="Ya" onClick="deleteConfirm.setVisible(false); statusDlt.setVisible(true);"/>
+					<button label="Batal" onClick="deleteConfirm.setVisible(false);"/>
+				</hlayout>
+			</vlayout>
+		</window>
+		<!-- POPUP Delete -->
+		<window id="statusDlt" title="Data berhasil Dihapus!" width="300px" mode="modal" closable="true" visible="false">
+			<vlayout spacing="10px">		
+        				<button label="Tutup" onClick="statusDlt.setVisible(false);"/>
+			</vlayout>
+		</window>
+
 	</window>
 </zk>
