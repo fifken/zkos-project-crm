@@ -1,0 +1,5 @@
+com\zkos\crm\MyViewModel.class
+com\zkos\crm\services\MyService.class
+com\zkos\crm\services\impl\LogDao.class
+com\zkos\crm\entity\Log.class
+com\zkos\crm\services\impl\MyServiceImpl.class
