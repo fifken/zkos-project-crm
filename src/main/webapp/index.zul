@@ -1,33 +1,129 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('com.zkos.crm.MyViewModel')"
-		validationMessages="@id('vmsgs')" width="600px" vflex="1">
-		<vlayout>
-			<hbox align="center" hflex="1">
-				Log message: <textbox value="@save(vm.message)"
-					onOK="@command('addLog')" hflex="1" placeholder="What happened?" />
-				<button label="add" onClick="@command('addLog')" />
-			</hbox>
-			<listbox model="@bind(vm.logListModel)" rows="10">
-				<listhead>
-					<listheader hflex="min" />
-					<listheader hflex="min" />
-					<listheader />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell>
-							<button label="delete" onClick="@command('deleteLog', log=each)" />
-						</listcell>
-						<listcell>
-							<label value="@bind(each.date) @converter('formattedDate', format='yyyy/MM/dd HH:mm:ss')" />
-						</listcell>
-						<listcell>
-							<label value="@bind(each.message)" />
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
-		</vlayout>
+	<window>
+		<grid sclass="crm-table">
+			<columns>
+				<column label="Nama"/>
+				<column label="No Kontrak"/>
+				<column label="Total Hutang"/>
+				<column label="Sisa Hutang"/>
+				<column label="Status"/>
+				<column label=" "/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Agus"/>
+					<label value="0001"/>
+					<label value="10.000.000"/>
+					<label value="7.000.000"/>
+					<label value="Belum Lunas"/>
+					<hlayout>
+						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+					</hlayout>
+
+				</row>
+				<row>
+					<label value="Budi"/>
+					<label value="0002"/>
+					<label value="5.000.000"/>
+					<label value="0"/>
+					<label value="Lunas"/>
+					<hlayout>
+						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+					</hlayout>
+				</row>
+				<row>
+					<label value="Dono"/>
+					<label value="0003"/>
+					<label value="20.000.000"/>
+					<label value="10.000.000"/>
+					<label value="Belum Lunas"/>
+					<hlayout>
+						<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+						<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+					</hlayout>
+				</row>
+				<row>
+    				<label value="Siti"/>
+    				<label value="0004"/>
+    				<label value="15.000.000"/>
+    				<label value="5.000.000"/>
+    				<label value="Belum Lunas"/>
+    				<hlayout>
+        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+					</row>
+				<row>
+    				<label value="Budi"/>
+    				<label value="0005"/>
+    				<label value="25.000.000"/>
+    				<label value="0"/>
+    				<label value="Lunas"/>
+    				<hlayout>
+        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+				</row>
+				<row>
+    				<label value="Tini"/>
+    				<label value="0006"/>
+    				<label value="30.000.000"/>
+    				<label value="15.000.000"/>
+    				<label value="Belum Lunas"/>
+    				<hlayout>
+    				    <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+    				    <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+				</row>
+				<row>
+				    <label value="Joko"/>
+				    <label value="0007"/>
+				    <label value="10.000.000"/>
+				    <label value="0"/>
+				    <label value="Lunas"/>
+				    <hlayout>
+			        	<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+				        <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+				</row>
+				<row>
+				    <label value="Rina"/>
+ 				    <label value="0008"/>
+				    <label value="18.000.000"/>
+				    <label value="8.000.000"/>
+				    <label value="Belum Lunas"/>
+ 				    <hlayout>
+        				<button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+				</row>
+				<row>
+				    <label value="Anto"/>
+				    <label value="0009"/>
+				    <label value="22.000.000"/>
+				    <label value="0"/>
+				    <label value="Lunas"/>
+				    <hlayout>
+				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+				        <button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+				    </hlayout>
+				</row>
+				<row>
+				    <label value="Wati"/>
+				    <label value="0010"/>
+				    <label value="12.000.000"/>
+				    <label value="6.000.000"/>
+				    <label value="Belum Lunas"/>
+					<hlayout>
+				        <button tooltiptext="Detail" iconSclass="z-icon-search" onClick="info.doPopup()"/>
+        				<button tooltiptext="Delete" iconSclass="z-icon-trash" onClick="info.doPopup"/>
+    				</hlayout>
+				</row>
+
+				<!-- Tambahkan baris lain jika perlu -->
+			</rows>
+		</grid>
 	</window>
 </zk>
