@@ -36,6 +36,8 @@ public class NasabahController extends SelectorComposer<Component> {
     private Window editSisaWin;
     @Wire
     private Doublebox editSisaBox;
+    @Wire
+    private Window statusUbahSisa;
 
     private NasabahService nasabahService = new NasabahServiceImpl();
     private Nasabah selectedNasabah;
@@ -161,6 +163,7 @@ public class NasabahController extends SelectorComposer<Component> {
                 nasabahService.deleteNasabah(detailNasabah.getNoKontrak());
                 nasabahService.saveNasabah(detailNasabah);
                 loadNasabah();
+                if (statusUbahSisa != null) statusUbahSisa.setVisible(true);
             } catch (NumberFormatException ex) {
                 Messagebox.show("Input sisa hutang tidak valid.");
             }

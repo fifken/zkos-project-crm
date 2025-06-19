@@ -91,5 +91,12 @@
                 </hlayout>
             </vlayout>
         </window>
+
+        <!-- Status Ubah Sisa Hutang -->
+        <window id="statusUbahSisa" title="Data Berhasil Diubah" width="300px" mode="modal" closable="true" visible="false">
+            <vlayout spacing="10px" sclass="form-window">
+                <button label="Tutup" sclass="elegant-button" onClick="statusUbahSisa.setVisible(false);"/>
+            </vlayout>
+        </window>
     </window>
 </zk>
