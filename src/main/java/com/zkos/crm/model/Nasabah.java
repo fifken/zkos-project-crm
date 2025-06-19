@@ -1,4 +1,4 @@
-package com.rkcrm.model;
+package com.zkos.crm.model;
 
 public class Nasabah {
     private String nama;

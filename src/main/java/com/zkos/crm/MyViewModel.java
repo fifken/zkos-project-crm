@@ -1,57 +1,119 @@
-package com.zkos.crm;
+// package com.zkos.crm;
 
-import com.zkos.crm.entity.Nasabah;
-import com.zkos.crm.services.NasabahService;
-import java.util.List;
-import org.zkoss.bind.annotation.BindingParam;
-import org.zkoss.bind.annotation.Command;
-import org.zkoss.bind.annotation.Init;
-import org.zkoss.lang.Strings;
-import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zul.ListModel;
-import org.zkoss.zul.ListModelList;
+// import com.zkos.crm.model.Nasabah;
+// import com.zkos.crm.services.NasabahService;
+// import com.zkos.crm.services.impl.NasabahServiceImpl;
+// import java.util.List;
+// import org.zkoss.bind.annotation.BindingParam;
+// import org.zkoss.bind.annotation.Command;
+// import org.zkoss.bind.annotation.Init;
+// import org.zkoss.lang.Strings;
+// import org.zkoss.zul.ListModel;
+// import org.zkoss.zul.ListModelList;
 
-@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class MyViewModel {
+// public class MyViewModel {
 
-	@WireVariable
-	private NasabahService myService;
-	private ListModelList<Nasabah> logListModel;
-	private String message;
+//     private NasabahService nasabahService = new NasabahServiceImpl();
 
-	@Init
-	public void init() {
-		List<Nasabah> logList = myService.getLogs();
-		logListModel = new ListModelList<Nasabah>(logList);
-	}
+//     private ListModelList<Nasabah> nasabahListModel;
+//     private String namaNasabah;
+//     private String noKontrak;
+//     private Double totalHutang;
+//     private Double sisaHutang;
+//     private String status;
+//     private String cabang;
 
-	public ListModel<Nasabah> getLogListModel() {
-		return logListModel;
-	}
+//     @Init
+//     public void init() {
+//         List<Nasabah> list = nasabahService.getAllNasabah();
+//         nasabahListModel = new ListModelList<>(list);
+//     }
 
-	public String getMessage() {
-		return message;
-	}
+//     public ListModel<Nasabah> getNasabahListModel() {
+//         return nasabahListModel;
+//     }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+//     public String getNamaNasabah() {
+//         return namaNasabah;
+//     }
 
-	@Command
-	public void addLog() {
-		if(Strings.isBlank(message)) {
-			return;
-		}
-		Nasabah log = new Nasabah(message);
-		log = myService.addLog(log);
-		logListModel.add(log);
-	}
+//     public void setNamaNasabah(String namaNasabah) {
+//         this.namaNasabah = namaNasabah;
+//     }
 
-	@Command
-	public void deleteLog(@BindingParam("log") Nasabah log) {
-		myService.deleteLog(log);
-		logListModel.remove(log);
-	}
+//     // Getter & Setter untuk noKontrak
+//     public String getNoKontrak() {
+//         return noKontrak;
+//     }
 
-}
+//     public void setNoKontrak(String noKontrak) {
+//         this.noKontrak = noKontrak;
+//     }
+
+//     // Getter & Setter untuk totalHutang
+//     public Double getTotalHutang() {
+//         return totalHutang;
+//     }
+
+//     public void setTotalHutang(Double totalHutang) {
+//         this.totalHutang = totalHutang;
+//     }
+
+//     // Getter & Setter untuk sisaHutang
+//     public Double getSisaHutang() {
+//         return sisaHutang;
+//     }
+
+//     public void setSisaHutang(Double sisaHutang) {
+//         this.sisaHutang = sisaHutang;
+//     }
+
+//     // Getter & Setter untuk status
+//     public String getStatus() {
+//         return status;
+//     }
+
+//     public void setStatus(String status) {
+//         this.status = status;
+//     }
+
+//     // Getter & Setter untuk cabang
+//     public String getCabang() {
+//         return cabang;
+//     }
+
+//     public void setCabang(String cabang) {
+//         this.cabang = cabang;
+//     }
+
+//     @Command
+//     public void tambahNasabah() {
+//         if (Strings.isBlank(namaNasabah) || Strings.isBlank(noKontrak) || totalHutang == null || sisaHutang == null || Strings.isBlank(status) || Strings.isBlank(cabang)) {
+//             return;
+//         }
+
+//         Nasabah nasabahBaru = new Nasabah();
+//         nasabahBaru.setNama(namaNasabah);
+//         nasabahBaru.setNoKontrak(noKontrak);
+//         nasabahBaru.setTotalHutang(totalHutang);
+//         nasabahBaru.setSisaHutang(sisaHutang);
+//         nasabahBaru.setStatus(status);
+//         nasabahBaru.setCabang(cabang);
+
+//         Nasabah savedNasabah = nasabahService.saveNasabah(nasabahBaru);
+//         nasabahListModel.add(savedNasabah);
+
+//         namaNasabah = ""; // reset input
+//         noKontrak = "";
+//         totalHutang = null;
+//         sisaHutang = null;
+//         status = "";
+//         cabang = "";
+//     }
+
+//     @Command
+//     public void hapusNasabah(@BindingParam("nasabah") Nasabah nasabah) {
+//         nasabahService.deleteNasabah(nasabah.getNoKontrak());
+//         nasabahListModel.remove(nasabah);
+//     }
+// }

@@ -1,12 +1,11 @@
-package com.rkcrm.service;
+package com.zkos.crm.services;
 
-import com.rkcrm.model.Nasabah;
-
+import com.zkos.crm.model.Nasabah;
 import java.util.List;
 
 public interface NasabahService {
     List<Nasabah> getAllNasabah();
-    void addNasabah(Nasabah nasabah);
+    Nasabah saveNasabah(Nasabah nasabah);
     void deleteNasabah(String noKontrak);
     Nasabah findByNoKontrak(String noKontrak);
 }

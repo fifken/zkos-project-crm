@@ -1,7 +1,7 @@
-package com.rkcrm.service.impl;
+package com.zkos.crm.services.impl;
 
-import com.rkcrm.model.Nasabah;
-import com.rkcrm.service.NasabahService;
+import com.zkos.crm.model.Nasabah;
+import com.zkos.crm.services.NasabahService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,8 +22,9 @@ public class NasabahServiceImpl implements NasabahService {
     }
 
     @Override
-    public void addNasabah(Nasabah nasabah) {
+    public Nasabah saveNasabah(Nasabah nasabah) {
         nasabahList.add(nasabah);
+        return nasabah;
     }
 
     @Override
