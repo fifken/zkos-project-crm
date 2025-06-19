@@ -23,6 +23,12 @@ public class NasabahServiceImpl implements NasabahService {
 
     @Override
     public Nasabah saveNasabah(Nasabah nasabah) {
+        // Logic status otomatis
+        if (nasabah.getSisaHutang() == 0) {
+            nasabah.setStatus("Lunas");
+        } else {
+            nasabah.setStatus("Belum Lunas");
+        }
         for (int i = 0; i < nasabahList.size(); i++) {
             if (nasabahList.get(i).getNoKontrak().equals(nasabah.getNoKontrak())) {
                 nasabahList.set(i, nasabah); // update data lama

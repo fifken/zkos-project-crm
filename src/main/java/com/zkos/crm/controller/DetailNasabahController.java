@@ -1,5 +1,7 @@
 package com.zkos.crm.controller;
 
+import java.text.DecimalFormat;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -17,6 +19,8 @@ public class DetailNasabahController extends SelectorComposer<Component> {
     
     @Wire
     private Window detailWin;
+    
+    private static final DecimalFormat df = new DecimalFormat("#,##0");
     
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -49,8 +53,8 @@ public class DetailNasabahController extends SelectorComposer<Component> {
         System.out.println("DEBUG: populateDetails dipanggil, nasabah = " + nasabah);
         namaDetail.setValue(nasabah.getNama());
         noKontrakDetail.setValue(nasabah.getNoKontrak());
-        totalHutangDetail.setValue(String.valueOf(nasabah.getTotalHutang()));
-        sisaHutangDetail.setValue(String.valueOf(nasabah.getSisaHutang()));
+        totalHutangDetail.setValue(df.format(nasabah.getTotalHutang()));
+        sisaHutangDetail.setValue(df.format(nasabah.getSisaHutang()));
         statusDetail.setValue(nasabah.getStatus());
         cabangDetail.setValue(nasabah.getCabang());
     }

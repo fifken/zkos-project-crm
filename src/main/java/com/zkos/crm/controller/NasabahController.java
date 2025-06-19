@@ -1,5 +1,6 @@
 package com.zkos.crm.controller;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class NasabahController extends SelectorComposer<Component> {
     private Rows nasabahRows;
 
     private NasabahService nasabahService = new NasabahServiceImpl();
+    private static final DecimalFormat df = new DecimalFormat("#,##0");
 
     @Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -48,8 +50,8 @@ public class NasabahController extends SelectorComposer<Component> {
             Row row = new Row();
             row.appendChild(new Label(n.getNama()));
             row.appendChild(new Label(n.getNoKontrak()));
-            row.appendChild(new Label(String.valueOf(n.getTotalHutang())));
-            row.appendChild(new Label(String.valueOf(n.getSisaHutang())));
+            row.appendChild(new Label(df.format(n.getTotalHutang())));
+            row.appendChild(new Label(df.format(n.getSisaHutang())));
             row.appendChild(new Label(n.getStatus()));
             
             // Tombol aksi
