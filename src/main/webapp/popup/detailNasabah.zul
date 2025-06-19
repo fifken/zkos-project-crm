@@ -1,0 +1,34 @@
+<?page title="Detail Nasabah" contentType="text/html;charset=UTF-8"?>
+<window id="detailWin" title="Detail Nasabah" width="400px" 
+    mode="modal" closable="true" visible="true"
+    apply="com.zkos.crm.controller.DetailNasabahController">
+    <vlayout spacing="10px" sclass="form-window">
+        <hlayout>
+            <label value="Nama:" width="120px"/>
+            <label id="namaDetail"/>
+        </hlayout>
+        <hlayout>
+            <label value="No Kontrak:" width="120px"/>
+            <label id="noKontrakDetail"/>
+        </hlayout>
+        <hlayout>
+            <label value="Total Hutang:" width="120px"/>
+            <label id="totalHutangDetail"/>
+        </hlayout>
+        <hlayout>
+            <label value="Sisa Hutang:" width="120px"/>
+            <label id="sisaHutangDetail"/>
+        </hlayout>
+        <hlayout>
+            <label value="Status:" width="120px"/>
+            <label id="statusDetail"/>
+        </hlayout>
+        <hlayout>
+            <label value="Cabang:" width="120px"/>
+            <label id="cabangDetail"/>
+        </hlayout>
+        <hlayout>
+            <button id="tutupBtn" label="Tutup" sclass="elegant-button"/>
+        </hlayout>
+    </vlayout>
+</window>

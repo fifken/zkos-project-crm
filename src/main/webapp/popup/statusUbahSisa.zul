@@ -1,0 +1,6 @@
+<window title="Data Berhasil Diubah" width="300px" mode="modal" closable="true" visible="true">
+    <vlayout spacing="10px" sclass="form-window">
+        <label id="statusLabel"/>
+        <button label="Tutup" sclass="elegant-button" onClick="self.parent.parent.setVisible(false);"/>
+    </vlayout>
+</window>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+<window id="addWin" title="Tambah Nasabah Baru" width="400px" mode="modal" closable="true" visible="true"
+    apply="com.zkos.crm.controller.AddNasabahController">
+    <vlayout spacing="10px" sclass="form-window">
+        <textbox id="namaBox" placeholder="Nama" sclass="form-field"/>
+        <textbox id="noKontrakBox" placeholder="No Kontrak" sclass="form-field"/>
+        <doublebox id="totalHutangBox" placeholder="Total Hutang" sclass="form-field"/>
+        <doublebox id="sisaHutangBox" placeholder="Sisa Hutang" sclass="form-field"/>
+        <combobox id="statusBox" placeholder="Status" sclass="form-field">
+            <comboitem label="Belum Lunas" value="Belum Lunas"/>
+            <comboitem label="Lunas" value="Lunas"/>
+        </combobox>
+        <textbox id="cabangBox" placeholder="Cabang" sclass="form-field"/>
+        <hlayout>
+            <button id="cancelBtn" label="Batal" sclass="elegant-button"/>
+            <button id="tambahBtn" label="Tambah" sclass="elegant-button"/>
+        </hlayout>
+    </vlayout>
+</window>
+</zk>

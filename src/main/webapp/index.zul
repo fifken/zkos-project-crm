@@ -1,33 +1,19 @@
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('com.zkos.crm.MyViewModel')"
-		validationMessages="@id('vmsgs')" width="600px" vflex="1">
-		<vlayout>
-			<hbox align="center" hflex="1">
-				Log message: <textbox value="@save(vm.message)"
-					onOK="@command('addLog')" hflex="1" placeholder="What happened?" />
-				<button label="add" onClick="@command('addLog')" />
-			</hbox>
-			<listbox model="@bind(vm.logListModel)" rows="10">
-				<listhead>
-					<listheader hflex="min" />
-					<listheader hflex="min" />
-					<listheader />
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell>
-							<button label="delete" onClick="@command('deleteLog', log=each)" />
-						</listcell>
-						<listcell>
-							<label value="@bind(each.date) @converter('formattedDate', format='yyyy/MM/dd HH:mm:ss')" />
-						</listcell>
-						<listcell>
-							<label value="@bind(each.message)" />
-						</listcell>
-					</listitem>
-				</template>
-			</listbox>
-		</vlayout>
-	</window>
+    <window apply="com.zkos.crm.controller.NasabahController" border="normal" width="100%" height="100%" self="@define(content)">
+        <grid id="nasabahGrid" width="100%">
+            <columns>
+                <column label="Nama"/>
+                <column label="No Kontrak"/>
+                <column label="Total Hutang"/>
+                <column label="Sisa Hutang"/>
+                <column label="Status"/>
+                <column label="Aksi"/>
+            </columns>
+            <rows id="nasabahRows"/>
+        </grid>
+        <div align="right" style="margin-top: 15px;">
+            <button id="addNasabahBtn" iconSclass="z-icon-plus" label="Tambah Nasabah" sclass="elegant-button"/>
+        </div>
+    </window>
 </zk>
