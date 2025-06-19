@@ -1,0 +1,5 @@
+<window id="DltUpt" title="Data Berhasil Ditambahkan" width="300px" mode="modal" closable="true" visible="true">
+    <vlayout spacing="10px" sclass="form-window">        
+        <button label="Tutup" sclass="elegant-button" onClick="DltUpt.setVisible(false);"/>
+    </vlayout>
+</window>

@@ -1,0 +1,13 @@
+<?page title="Edit Sisa Hutang" contentType="text/html;charset=UTF-8"?>
+<window id="editSisaWin" title="Edit Sisa Hutang" width="300px" 
+    mode="modal" closable="true" visible="true"
+    apply="com.zkos.crm.controller.EditSisaHutangController">
+    <vbox align="center" spacing="10px">
+        <label value="Masukkan sisa hutang baru:"/>
+        <doublebox id="sisaHutangBox" format="#,##0.##" sclass="form-field"/>
+        <hlayout>
+            <button id="batalBtn" label="Batal" sclass="elegant-button"/>
+            <button id="simpanBtn" label="Simpan" sclass="elegant-button"/>
+        </hlayout>
+    </vbox>
+</window>

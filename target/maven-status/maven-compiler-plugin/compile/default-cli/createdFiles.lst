@@ -1,5 +1,9 @@
-com\zkos\crm\MyViewModel.class
-com\zkos\crm\services\MyService.class
-com\zkos\crm\services\impl\LogDao.class
-com\zkos\crm\entity\Log.class
-com\zkos\crm\services\impl\MyServiceImpl.class
+com\zkos\crm\controller\NasabahController.class
+com\zkos\crm\controller\MainController.class
+com\zkos\crm\controller\DetailNasabahController.class
+com\zkos\crm\services\NasabahService.class
+com\zkos\crm\controller\DeleteConfirmController.class
+com\zkos\crm\controller\AddNasabahController.class
+com\zkos\crm\controller\EditSisaHutangController.class
+com\zkos\crm\model\Nasabah.class
+com\zkos\crm\services\impl\NasabahServiceImpl.class

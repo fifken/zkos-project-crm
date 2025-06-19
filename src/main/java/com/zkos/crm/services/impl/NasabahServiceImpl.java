@@ -1,11 +1,11 @@
 package com.zkos.crm.services.impl;
 
-import com.zkos.crm.model.Nasabah;
-import com.zkos.crm.services.NasabahService;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.zkos.crm.model.Nasabah;
+import com.zkos.crm.services.NasabahService;
 
 public class NasabahServiceImpl implements NasabahService {
 
@@ -23,7 +23,13 @@ public class NasabahServiceImpl implements NasabahService {
 
     @Override
     public Nasabah saveNasabah(Nasabah nasabah) {
-        nasabahList.add(nasabah);
+        for (int i = 0; i < nasabahList.size(); i++) {
+            if (nasabahList.get(i).getNoKontrak().equals(nasabah.getNoKontrak())) {
+                nasabahList.set(i, nasabah); // update data lama
+                return nasabah;
+            }
+        }
+        nasabahList.add(nasabah); // jika belum ada, add baru
         return nasabah;
     }
 

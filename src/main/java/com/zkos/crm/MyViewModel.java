@@ -117,3 +117,6 @@
 //         nasabahListModel.remove(nasabah);
 //     }
 // }
+
+// File ini dihapus karena project sudah migrasi ke pola MVC murni.
+// Semua logika ViewModel dipindahkan ke Controller.

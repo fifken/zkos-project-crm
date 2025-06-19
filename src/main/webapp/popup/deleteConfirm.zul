@@ -1,0 +1,12 @@
+<?page title="Konfirmasi Hapus" contentType="text/html;charset=UTF-8"?>
+<window id="deleteWin" title="Konfirmasi" width="300px" 
+    mode="modal" closable="true" visible="true"
+    apply="com.zkos.crm.controller.DeleteConfirmController">
+    <vbox align="center" spacing="10px">
+        <label value="Apakah Anda yakin ingin menghapus data nasabah ini?" />
+        <hlayout>
+            <button id="tidakBtn" label="Tidak" sclass="elegant-button"/>
+            <button id="yaBtn" label="Ya" sclass="elegant-button"/>
+        </hlayout>
+    </vbox>
+</window>
