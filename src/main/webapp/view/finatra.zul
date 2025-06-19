@@ -1,7 +1,10 @@
 <zk>
-    <window apply="com.zkos.crm.controller.NasabahController" border="normal" width="100%" height="100%">
+    <window apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm') @init('com.zkos.crm.MyViewModel')"
+        validationMessages="@id('vmsgs')" width="100%" height="100%" border="normal">
+        
         <!-- Tabel Data Hutang Piutang -->
-        <grid id="nasabahGrid" sclass="crm-table" width="100%" mold="paging" pageSize="10">
+        <grid width="100%" model="@load(vm.nasabahListModel)" mold="paging" pageSize="10">
             <columns>
                 <column label="Nama"/>
                 <column label="No Kontrak"/>
@@ -10,92 +13,30 @@
                 <column label="Status"/>
                 <column label="Aksi"/>
             </columns>
-            <rows id="nasabahRows">
-                <!-- Baris data akan diisi oleh controller -->
-            </rows>
+            <template name="model">
+                <row>
+                    <label value="@load(each.nama)"/>
+                    <label value="@load(each.noKontrak)"/>
+                    <label value="@load(each.totalHutang) @converter('formatedNumber', format='###,##0')"/>
+                    <label value="@load(each.sisaHutang) @converter('formatedNumber', format='###,##0')"/>
+                    <label value="@load(each.status)"/>
+                    <hlayout>
+                        <button iconSclass="z-icon-search" sclass="elegant-button" 
+                                tooltiptext="View Details" 
+                                onClick="@command('showDetail', nasabah=each)"/>
+                        <button iconSclass="z-icon-trash" sclass="elegant-button" 
+                                tooltiptext="Delete"
+                                onClick="@command('showDeleteConfirm', nasabah=each)"/>
+                    </hlayout>
+                </row>
+            </template>
         </grid>
 
         <!-- Tombol Tambah Nasabah -->
         <div align="right" style="margin-top: 15px;">
-            <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="addWin.setVisible(true);"/>
+            <button iconSclass="z-icon-plus" sclass="elegant-button" 
+                    tooltiptext="Tambah Nasabah" 
+                    onClick="@command('showAddDialog')"/>
         </div>
-
-        <!-- Tambah Nasabah -->
-        <window id="addWin" title="Tambah Nasabah Baru" width="400px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">
-                <textbox id="namaBox" placeholder="Nama" sclass="form-field"/>
-                <textbox id="noKontrakBox" placeholder="No Kontrak" sclass="form-field"/>
-                <doublebox id="totalHutangBox" placeholder="Total Hutang" sclass="form-field"/>
-                <doublebox id="sisaHutangBox" placeholder="Sisa Hutang" sclass="form-field"/>
-                <combobox id="statusBox" placeholder="Status" sclass="form-field">
-                    <comboitem label="Belum Lunas" value="Belum Lunas"/>
-                    <comboitem label="Lunas" value="Lunas"/>
-                </combobox>
-                <textbox id="cabangBox" placeholder="Cabang" sclass="form-field"/>
-                <hlayout>
-                    <button label="Batal" sclass="elegant-button" onClick="addWin.setVisible(false);"/>
-                    <button id="tambahBtn" label="Tambah" sclass="elegant-button" onClick=""/>
-                </hlayout>
-            </vlayout>
-        </window>
-
-        <!-- Status Tambah -->
-        <window id="DltUpt" title="Data Berhasil Ditambahkan" width="300px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">        
-                <button label="Tutup" sclass="elegant-button" onClick="DltUpt.setVisible(false);"/>
-            </vlayout>
-        </window>
-
-        <!-- Konfirmasi Hapus -->
-        <window id="deleteConfirm" title="Konfirmasi Hapus" width="300px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">
-                <label value="Apakah Anda yakin ingin menghapus data ini?"/>
-                <hlayout>
-                    <button id="yaHapusBtn" label="Ya" sclass="elegant-button"/>
-                    <button label="Batal" sclass="elegant-button" onClick="deleteConfirm.setVisible(false);"/>
-                </hlayout>
-            </vlayout>
-        </window>
-
-        <!-- Status Hapus -->
-        <window id="statusDlt" title="Data Berhasil Dihapus" width="300px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">        
-                <button label="Tutup" sclass="elegant-button" onClick="statusDlt.setVisible(false);"/>
-            </vlayout>
-        </window>
-
-        <!-- Detail Nasabah -->
-        <window id="detailWin" title="Detail Nasabah" width="400px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">
-                <label id="detailNama" value=""/>
-                <label id="detailNoKontrak" value=""/>
-                <label id="detailCabang" value=""/>
-                <label id="detailTotalHutang" value=""/>
-                <textbox id="detailSisaHutang" value="" sclass="form-field"/>
-                <label id="detailStatus" value=""/>
-                <hlayout>
-                    <button label="Tutup" sclass="elegant-button" onClick="detailWin.setVisible(false);"/>
-                    <button id="editSisaBtn" label="Edit Sisa Hutang" sclass="elegant-button"/>
-                </hlayout>
-            </vlayout>
-        </window>
-
-        <!-- Edit Sisa Hutang Modal -->
-        <window id="editSisaWin" title="Edit Sisa Hutang" width="300px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">
-                <doublebox id="editSisaBox" placeholder="Sisa Hutang Baru" sclass="form-field"/>
-                <hlayout>
-                    <button label="Batal" sclass="elegant-button" onClick="editSisaWin.setVisible(false);"/>
-                    <button id="simpanSisaBtn" label="Simpan" sclass="elegant-button"/>
-                </hlayout>
-            </vlayout>
-        </window>
-
-        <!-- Status Ubah Sisa Hutang -->
-        <window id="statusUbahSisa" title="Data Berhasil Diubah" width="300px" mode="modal" closable="true" visible="false">
-            <vlayout spacing="10px" sclass="form-window">
-                <button label="Tutup" sclass="elegant-button" onClick="statusUbahSisa.setVisible(false);"/>
-            </vlayout>
-        </window>
     </window>
 </zk>

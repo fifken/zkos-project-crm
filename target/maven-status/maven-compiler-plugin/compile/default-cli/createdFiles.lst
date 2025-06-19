@@ -1,0 +1,4 @@
+com\zkos\crm\MyViewModel.class
+com\zkos\crm\model\Nasabah.class
+com\zkos\crm\services\impl\NasabahServiceImpl.class
+com\zkos\crm\services\NasabahService.class

@@ -5,8 +5,8 @@ import java.util.List;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.lang.Strings;
-import org.zkoss.zul.ListModel;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 
 import com.zkos.crm.model.Nasabah;
@@ -14,16 +14,24 @@ import com.zkos.crm.services.NasabahService;
 import com.zkos.crm.services.impl.NasabahServiceImpl;
 
 public class MyViewModel {
-
     private NasabahService nasabahService = new NasabahServiceImpl();
-
     private ListModelList<Nasabah> nasabahListModel;
+    
+    // Form fields
     private String namaNasabah;
     private String noKontrak;
     private Double totalHutang;
     private Double sisaHutang;
     private String status;
     private String cabang;
+    
+    // Selected item
+    private Nasabah selectedNasabah;
+    
+    // Dialog visibility flags
+    private boolean addDialogVisible = false;
+    private boolean detailDialogVisible = false;
+    private boolean deleteDialogVisible = false;
 
     @Init
     public void init() {
@@ -31,7 +39,116 @@ public class MyViewModel {
         nasabahListModel = new ListModelList<>(list);
     }
 
-    public ListModel<Nasabah> getNasabahListModel() {
+    @Command
+    @NotifyChange({"addDialogVisible", "namaNasabah", "noKontrak", "totalHutang", "sisaHutang", "status", "cabang"})
+    public void showAddDialog() {
+        clearForm();
+        addDialogVisible = true;
+    }
+
+    @Command
+    @NotifyChange("addDialogVisible")
+    public void closeAddDialog() {
+        addDialogVisible = false;
+    }
+
+    @Command
+    @NotifyChange({"nasabahListModel", "addDialogVisible"})
+    public void tambahNasabah() {
+        if (isFormValid()) {
+            Nasabah nasabahBaru = new Nasabah(namaNasabah, noKontrak, totalHutang, 
+                                             sisaHutang, status, cabang);
+            // Set status berdasarkan sisa hutang
+            nasabahBaru.setStatus(sisaHutang == 0 ? "Lunas" : "Belum Lunas");
+            
+            nasabahService.saveNasabah(nasabahBaru);
+            refreshList();
+            addDialogVisible = false;
+            clearForm();
+            Clients.showNotification("Data berhasil ditambahkan", "info", null, "middle_center", 2000);
+        } else {
+            Clients.showNotification("Semua field harus diisi", "warning", null, "middle_center", 2000);
+        }
+    }
+
+    @Command
+    @NotifyChange({"selectedNasabah", "detailDialogVisible"})
+    public void showDetail(@BindingParam("nasabah") Nasabah nasabah) {
+        this.selectedNasabah = nasabah;
+        detailDialogVisible = true;
+    }
+
+    @Command
+    @NotifyChange("detailDialogVisible")
+    public void closeDetailDialog() {
+        detailDialogVisible = false;
+    }
+
+    @Command
+    @NotifyChange({"nasabahListModel", "detailDialogVisible", "selectedNasabah"})
+    public void editSisaHutang() {
+        if (selectedNasabah != null) {
+            // Update status berdasarkan sisa hutang
+            selectedNasabah.setStatus(selectedNasabah.getSisaHutang() == 0 ? "Lunas" : "Belum Lunas");
+            
+            nasabahService.deleteNasabah(selectedNasabah.getNoKontrak());
+            nasabahService.saveNasabah(selectedNasabah);
+            
+            refreshList();
+            detailDialogVisible = false;
+            Clients.showNotification("Sisa hutang berhasil diubah", "info", null, "middle_center", 2000);
+        }
+    }
+
+    @Command
+    @NotifyChange({"selectedNasabah", "deleteDialogVisible"})
+    public void showDeleteConfirm(@BindingParam("nasabah") Nasabah nasabah) {
+        this.selectedNasabah = nasabah;
+        deleteDialogVisible = true;
+    }
+
+    @Command
+    @NotifyChange("deleteDialogVisible")
+    public void closeDeleteDialog() {
+        deleteDialogVisible = false;
+    }
+
+    @Command
+    @NotifyChange({"nasabahListModel", "deleteDialogVisible"})
+    public void deleteNasabah() {
+        if (selectedNasabah != null) {
+            nasabahService.deleteNasabah(selectedNasabah.getNoKontrak());
+            refreshList();
+            deleteDialogVisible = false;
+            Clients.showNotification("Data berhasil dihapus", "info", null, "middle_center", 2000);
+        }
+    }
+
+    private void clearForm() {
+        namaNasabah = "";
+        noKontrak = "";
+        totalHutang = null;
+        sisaHutang = null;
+        status = "";
+        cabang = "";
+    }
+
+    private boolean isFormValid() {
+        return namaNasabah != null && !namaNasabah.isEmpty() &&
+               noKontrak != null && !noKontrak.isEmpty() &&
+               totalHutang != null && sisaHutang != null &&
+               status != null && !status.isEmpty() &&
+               cabang != null && !cabang.isEmpty();
+    }
+
+    private void refreshList() {
+        List<Nasabah> list = nasabahService.getAllNasabah();
+        nasabahListModel.clear();
+        nasabahListModel.addAll(list);
+    }
+
+    // Getters and Setters
+    public ListModelList<Nasabah> getNasabahListModel() {
         return nasabahListModel;
     }
 
@@ -43,7 +160,6 @@ public class MyViewModel {
         this.namaNasabah = namaNasabah;
     }
 
-    // Getter & Setter untuk noKontrak
     public String getNoKontrak() {
         return noKontrak;
     }
@@ -52,7 +168,6 @@ public class MyViewModel {
         this.noKontrak = noKontrak;
     }
 
-    // Getter & Setter untuk totalHutang
     public Double getTotalHutang() {
         return totalHutang;
     }
@@ -61,7 +176,6 @@ public class MyViewModel {
         this.totalHutang = totalHutang;
     }
 
-    // Getter & Setter untuk sisaHutang
     public Double getSisaHutang() {
         return sisaHutang;
     }
@@ -70,7 +184,6 @@ public class MyViewModel {
         this.sisaHutang = sisaHutang;
     }
 
-    // Getter & Setter untuk status
     public String getStatus() {
         return status;
     }
@@ -79,7 +192,6 @@ public class MyViewModel {
         this.status = status;
     }
 
-    // Getter & Setter untuk cabang
     public String getCabang() {
         return cabang;
     }
@@ -88,34 +200,23 @@ public class MyViewModel {
         this.cabang = cabang;
     }
 
-    @Command
-    public void tambahNasabah() {
-        if (Strings.isBlank(namaNasabah) || Strings.isBlank(noKontrak) || totalHutang == null || sisaHutang == null || Strings.isBlank(status) || Strings.isBlank(cabang)) {
-            return;
-        }
-
-        Nasabah nasabahBaru = new Nasabah();
-        nasabahBaru.setNama(namaNasabah);
-        nasabahBaru.setNoKontrak(noKontrak);
-        nasabahBaru.setTotalHutang(totalHutang);
-        nasabahBaru.setSisaHutang(sisaHutang);
-        nasabahBaru.setStatus(status);
-        nasabahBaru.setCabang(cabang);
-
-        Nasabah savedNasabah = nasabahService.saveNasabah(nasabahBaru);
-        nasabahListModel.add(savedNasabah);
-
-        namaNasabah = ""; // reset input
-        noKontrak = "";
-        totalHutang = null;
-        sisaHutang = null;
-        status = "";
-        cabang = "";
+    public Nasabah getSelectedNasabah() {
+        return selectedNasabah;
     }
 
-    @Command
-    public void hapusNasabah(@BindingParam("nasabah") Nasabah nasabah) {
-        nasabahService.deleteNasabah(nasabah.getNoKontrak());
-        nasabahListModel.remove(nasabah);
+    public void setSelectedNasabah(Nasabah selectedNasabah) {
+        this.selectedNasabah = selectedNasabah;
+    }
+
+    public boolean isAddDialogVisible() {
+        return addDialogVisible;
+    }
+
+    public boolean isDetailDialogVisible() {
+        return detailDialogVisible;
+    }
+
+    public boolean isDeleteDialogVisible() {
+        return deleteDialogVisible;
     }
 }
