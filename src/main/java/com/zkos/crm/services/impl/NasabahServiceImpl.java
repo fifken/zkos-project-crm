@@ -1,50 +1,45 @@
 package com.zkos.crm.services.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Service;
+
+import com.zkos.crm.dao.NasabahDao;
 import com.zkos.crm.model.Nasabah;
 import com.zkos.crm.services.NasabahService;
 
+@Service("nasabahService")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class NasabahServiceImpl implements NasabahService {
 
-    private static List<Nasabah> nasabahList = new ArrayList<>();
-
-    static {
-        nasabahList.add(new Nasabah("Wati", "001", 12000000, 6000000, "Belum Lunas", "Jakarta"));
-        nasabahList.add(new Nasabah("Dono", "002", 15000000, 0, "Lunas", "Bandung"));
-    }
+    @Autowired
+    private NasabahDao nasabahDao;
 
     @Override
     public List<Nasabah> getAllNasabah() {
-        return new ArrayList<>(nasabahList);
+        return nasabahDao.findAll();
     }
 
     @Override
     public Nasabah saveNasabah(Nasabah nasabah) {
-        nasabahList.add(nasabah);
-        return nasabah;
+        return nasabahDao.save(nasabah);
     }
 
     @Override
     public void deleteNasabah(String noKontrak) {
-        Iterator<Nasabah> iterator = nasabahList.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getNoKontrak().equals(noKontrak)) {
-                iterator.remove();
-                break;
-            }
-        }
+        nasabahDao.delete(noKontrak);
+    }
+
+    @Override
+    public Nasabah updateNasabah(Nasabah nasabah) {
+        return nasabahDao.save(nasabah);
     }
 
     @Override
     public Nasabah findByNoKontrak(String noKontrak) {
-        for (Nasabah n : nasabahList) {
-            if (n.getNoKontrak().equals(noKontrak)) {
-                return n;
-            }
-        }
-        return null;
+        return nasabahDao.findByNoKontrak(noKontrak);
     }
 }

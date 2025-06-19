@@ -1,3 +1,4 @@
+D:\java\zkos-project-crm\src\main\java\com\zkos\crm\dao\impl\NasabahDaoImpl.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\model\Nasabah.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\controller\DetailNasabahController.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\services\NasabahService.java
@@ -5,5 +6,6 @@ D:\java\zkos-project-crm\src\main\java\com\zkos\crm\controller\AddNasabahControl
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\MyViewModel.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\controller\DeleteConfirmController.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\services\impl\NasabahServiceImpl.java
+D:\java\zkos-project-crm\src\main\java\com\zkos\crm\dao\NasabahDao.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\controller\EditSisaHutangController.java
 D:\java\zkos-project-crm\src\main\java\com\zkos\crm\controller\NasabahController.java

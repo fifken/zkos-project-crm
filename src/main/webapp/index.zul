@@ -1,10 +1,6 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
 <zk>
-    <window apply="org.zkoss.bind.BindComposer"
-        viewModel="@id('vm') @init('com.zkos.crm.MyViewModel')"
-        validationMessages="@id('vmsgs')" width="100%" vflex="1" self="@define(content)">
-        
-        <!-- Tabel Data Hutang Piutang -->
+    <window apply="org.zkoss.bind.BindComposer" viewModel="@id(&apos;vm&apos;) @init(&apos;com.zkos.crm.MyViewModel&apos;)" validationMessages="@id(&apos;vmsgs&apos;)" width="100%" vflex="1" self="@define(content)"><!-- Tabel Data Hutang Piutang -->
         <grid width="100%" model="@load(vm.nasabahListModel)" mold="paging" pageSize="10">
             <columns>
                 <column label="Nama"/>
@@ -18,34 +14,20 @@
                 <row>
                     <label value="@load(each.nama)"/>
                     <label value="@load(each.noKontrak)"/>
-                    <label value="@load(each.totalHutang) @converter('formatedNumber', format='###,##0')"/>
-                    <label value="@load(each.sisaHutang) @converter('formatedNumber', format='###,##0')"/>
+                    <label value="@load(each.totalHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
+                    <label value="@load(each.sisaHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
                     <label value="@load(each.status)"/>
                     <hlayout>
-                        <button iconSclass="z-icon-search" sclass="elegant-button" 
-                                tooltiptext="View Details" 
-                                onClick="@command('showDetail', nasabah=each)"/>
-                
-                        <button iconSclass="z-icon-trash" sclass="elegant-button" 
-                                tooltiptext="Delete"
-                                onClick="@command('showDeleteConfirm', nasabah=each)"/>
+                        <button iconSclass="z-icon-search" sclass="elegant-button" tooltiptext="View Details" onClick="@command(&apos;showDetail&apos;, nasabah=each)"/>
+                        <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command(&apos;showDeleteConfirm&apos;, nasabah=each)"/>
                     </hlayout>
                 </row>
             </template>
-        </grid>
-
-        <!-- Tombol Tambah Nasabah -->
+        </grid><!-- Tombol Tambah Nasabah -->
         <div align="right" style="margin-top: 15px;">
-            <button iconSclass="z-icon-plus" sclass="elegant-button" 
-                    tooltiptext="Tambah Nasabah" 
-                    onClick="@command('showAddDialog')"/>
-        </div>
-
-        <!-- Add Dialog -->
-        <window id="addDialog" title="Tambah Nasabah Baru" 
-                visible="@load(vm.addDialogVisible)"
-                width="400px" mode="modal" closable="true"
-                onClose="@command('closeAddDialog')">
+            <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command(&apos;showAddDialog&apos;)"/>
+        </div><!-- Add Dialog -->
+        <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="400px" mode="modal" closable="true" onClose="@command(&apos;closeAddDialog&apos;)">
             <vlayout spacing="10px">
                 <textbox value="@bind(vm.namaNasabah)" placeholder="Nama"/>
                 <textbox value="@bind(vm.noKontrak)" placeholder="No Kontrak"/>
@@ -57,17 +39,12 @@
                 </combobox>
                 <textbox value="@bind(vm.cabang)" placeholder="Cabang"/>
                 <hlayout>
-                    <button label="Batal" onClick="@command('closeAddDialog')"/>
-                    <button label="Tambah" onClick="@command('tambahNasabah')"/>
+                    <button label="Batal" onClick="@command(&apos;closeAddDialog&apos;)"/>
+                    <button label="Tambah" onClick="@command(&apos;tambahNasabah&apos;)"/>
                 </hlayout>
             </vlayout>
-        </window>
-
-        <!-- Detail Dialog -->
-        <window id="detailDialog" title="Detail Nasabah" 
-                visible="@load(vm.detailDialogVisible)"
-                width="400px" mode="modal" closable="true"
-                onClose="@command('closeDetailDialog')">
+        </window><!-- Detail Dialog -->
+        <window id="detailDialog" title="Detail Nasabah" visible="@load(vm.detailDialogVisible)" width="400px" mode="modal" closable="true" onClose="@command(&apos;closeDetailDialog&apos;)">
             <vlayout spacing="10px">
                 <grid>
                     <columns>
@@ -85,7 +62,7 @@
                         </row>
                         <row>
                             <label value="Total Hutang:"/>
-                            <label value="@load(vm.selectedNasabah.totalHutang) @converter('formatedNumber', format='###,##0')"/>
+                            <label value="@load(vm.selectedNasabah.totalHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
                         </row>
                         <row>
                             <label value="Sisa Hutang:"/>
@@ -102,22 +79,17 @@
                     </rows>
                 </grid>
                 <hlayout>
-                    <button label="Tutup" onClick="@command('closeDetailDialog')"/>
-                    <button label="Simpan" onClick="@command('editSisaHutang')"/>
+                    <button label="Tutup" onClick="@command(&apos;closeDetailDialog&apos;)"/>
+                    <button label="Simpan" onClick="@command(&apos;editSisaHutang&apos;)"/>
                 </hlayout>
             </vlayout>
-        </window>
-
-        <!-- Delete Confirmation -->
-        <window id="deleteDialog" title="Konfirmasi Hapus"
-                visible="@load(vm.deleteDialogVisible)"
-                width="300px" mode="modal" closable="true"
-                onClose="@command('closeDeleteDialog')">
+        </window><!-- Delete Confirmation -->
+        <window id="deleteDialog" title="Konfirmasi Hapus" visible="@load(vm.deleteDialogVisible)" width="300px" mode="modal" closable="true" onClose="@command(&apos;closeDeleteDialog&apos;)">
             <vlayout spacing="10px">
                 <label value="Apakah Anda yakin ingin menghapus data ini?"/>
                 <hlayout>
-                    <button label="Ya" onClick="@command('deleteNasabah')"/>
-                    <button label="Tidak" onClick="@command('closeDeleteDialog')"/>
+                    <button label="Ya" onClick="@command(&apos;deleteNasabah&apos;)"/>
+                    <button label="Tidak" onClick="@command(&apos;closeDeleteDialog&apos;)"/>
                 </hlayout>
             </vlayout>
         </window>

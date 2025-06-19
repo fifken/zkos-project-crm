@@ -10,7 +10,7 @@
 			<property name="hibernate.connection.password" value="password" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/myapp_db" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
 </persistence>
