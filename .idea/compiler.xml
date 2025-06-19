@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="zkos-project-crm (1)" />
         <module name="crm" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="zkos-project-crm" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
