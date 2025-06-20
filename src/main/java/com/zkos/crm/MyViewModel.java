@@ -96,7 +96,7 @@ public class MyViewModel {
     // --- Commands for Buttons and Dialogs ---
 
     @Command("showAddDialog")
-    @NotifyChange("addDialogVisible")
+    @NotifyChange({"addDialogVisible", "namaNasabah", "noKontrak", "totalHutang", "sisaHutang", "cabang", "notelpon", "email", "alamat", "status"})
     public void showAddDialog() {
         clearForm();
         setAddDialogVisible(true);

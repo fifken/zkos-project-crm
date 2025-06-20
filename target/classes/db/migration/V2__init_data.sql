@@ -1,3 +1,7 @@
+DELETE FROM user_roles;
+DELETE FROM users;
+DELETE FROM roles;
+
 INSERT INTO nasabah (id, cabang, nama, no_kontrak, sisahutang, status, totalhutang)
 VALUES 
 (1, 'Jakarta', 'Budi Santoso', 'CNTR12345', 1500000, 'Belum Lunas', 5000000),
