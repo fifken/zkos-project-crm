@@ -1,6 +1,11 @@
+com\zkos\crm\acl\services\UserServiceImpl.class
 com\zkos\crm\MyViewModel.class
 com\zkos\crm\dao\impl\NasabahDaoImpl.class
+com\zkos\crm\acl\entity\Role.class
+com\zkos\crm\services\NasabahService.class
+com\zkos\crm\config\SecurityConfig.class
+com\zkos\crm\acl\entity\User.class
+com\zkos\crm\acl\services\UserDao.class
 com\zkos\crm\dao\NasabahDao.class
 com\zkos\crm\model\Nasabah.class
 com\zkos\crm\services\impl\NasabahServiceImpl.class
-com\zkos\crm\services\NasabahService.class
