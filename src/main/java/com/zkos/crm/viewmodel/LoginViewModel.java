@@ -6,10 +6,12 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
+import com.zkos.crm.acl.entity.Role;
 import com.zkos.crm.acl.entity.User;
 import com.zkos.crm.acl.services.UserDao;
 
@@ -37,6 +39,17 @@ public class LoginViewModel {
     public void login() {
         User user = userDao.findByUsername(username);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            // Cek role, prioritas admin
+            String userRole = "ROLE_USER";
+            if (user.getRoles() != null) {
+                for (Role r : user.getRoles()) {
+                    if ("ROLE_ADMIN".equals(r.getName())) {
+                        userRole = "ROLE_ADMIN";
+                        break;
+                    }
+                }
+            }
+            Sessions.getCurrent().setAttribute("userRole", userRole);
             Executions.sendRedirect("/index.zul");
         } else {
             errorMsg = "Username atau password salah!";

@@ -6,13 +6,14 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Messagebox;
 
 import com.zkos.crm.model.Nasabah;
 import com.zkos.crm.services.NasabahService;
+import com.zkos.crm.util.SecurityUtil;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class MyViewModel {
@@ -39,62 +40,136 @@ public class MyViewModel {
     private boolean detailDialogVisible;
     private boolean deleteDialogVisible;
 
+    private String userRole;
+
     @Init
     public void init() {
         List<Nasabah> list = nasabahService.getAllNasabah();
         nasabahListModel = new ListModelList<>(list);
+        Object roleObj = Sessions.getCurrent().getAttribute("userRole");
+        userRole = (roleObj != null) ? roleObj.toString() : "ROLE_USER";
     }
 
     public ListModelList<Nasabah> getNasabahListModel() {
         return nasabahListModel;
     }
 
+    public boolean isAdmin() {
+        return SecurityUtil.isAdmin();
+    }
+
+    public boolean isUser() {
+        return SecurityUtil.isUser();
+    }
+
     // --- Dialog Visibility Getters/Setters ---
     public boolean isAddDialogVisible() {
         return addDialogVisible;
     }
+
     public void setAddDialogVisible(boolean addDialogVisible) {
         this.addDialogVisible = addDialogVisible;
     }
+
     public boolean isDetailDialogVisible() {
         return detailDialogVisible;
     }
+
     public void setDetailDialogVisible(boolean detailDialogVisible) {
         this.detailDialogVisible = detailDialogVisible;
     }
+
     public boolean isDeleteDialogVisible() {
         return deleteDialogVisible;
     }
+
     public void setDeleteDialogVisible(boolean deleteDialogVisible) {
         this.deleteDialogVisible = deleteDialogVisible;
     }
 
     // --- Form Fields Getters/Setters ---
-    public String getNamaNasabah() { return namaNasabah; }
-    public void setNamaNasabah(String namaNasabah) { this.namaNasabah = namaNasabah; }
-    public String getNoKontrak() { return noKontrak; }
-    public void setNoKontrak(String noKontrak) { this.noKontrak = noKontrak; }
-    public Double getTotalHutang() { return totalHutang; }
-    public void setTotalHutang(Double totalHutang) { this.totalHutang = totalHutang; }
-    public Double getSisaHutang() { return sisaHutang; }
-    public void setSisaHutang(Double sisaHutang) { this.sisaHutang = sisaHutang; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public String getCabang() { return cabang; }
-    public void setCabang(String cabang) { this.cabang = cabang; }
-    public String getNotelpon() { return notelpon; }
-    public void setNotelpon(String notelpon) { this.notelpon = notelpon; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    public String getAlamat() { return alamat; }
-    public void setAlamat(String alamat) { this.alamat = alamat; }
+    public String getNamaNasabah() {
+        return namaNasabah;
+    }
+
+    public void setNamaNasabah(String namaNasabah) {
+        this.namaNasabah = namaNasabah;
+    }
+
+    public String getNoKontrak() {
+        return noKontrak;
+    }
+
+    public void setNoKontrak(String noKontrak) {
+        this.noKontrak = noKontrak;
+    }
+
+    public Double getTotalHutang() {
+        return totalHutang;
+    }
+
+    public void setTotalHutang(Double totalHutang) {
+        this.totalHutang = totalHutang;
+    }
+
+    public Double getSisaHutang() {
+        return sisaHutang;
+    }
+
+    public void setSisaHutang(Double sisaHutang) {
+        this.sisaHutang = sisaHutang;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCabang() {
+        return cabang;
+    }
+
+    public void setCabang(String cabang) {
+        this.cabang = cabang;
+    }
+
+    public String getNotelpon() {
+        return notelpon;
+    }
+
+    public void setNotelpon(String notelpon) {
+        this.notelpon = notelpon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
 
     // --- Selected Nasabah ---
-    public Nasabah getSelectedNasabah() { return selectedNasabah; }
-    public void setSelectedNasabah(Nasabah selectedNasabah) { this.selectedNasabah = selectedNasabah; }
+    public Nasabah getSelectedNasabah() {
+        return selectedNasabah;
+    }
+
+    public void setSelectedNasabah(Nasabah selectedNasabah) {
+        this.selectedNasabah = selectedNasabah;
+    }
 
     // --- Commands for Buttons and Dialogs ---
-
     @Command("showAddDialog")
     @NotifyChange("addDialogVisible")
     public void showAddDialog() {
@@ -111,70 +186,20 @@ public class MyViewModel {
     @Command("tambahNasabah")
     @NotifyChange({"nasabahListModel", "addDialogVisible"})
     public void tambahNasabah() {
-        // Cek apakah noKontrak sudah ada
-        if (nasabahService.findByNoKontrak(noKontrak) != null) {
-            Messagebox.show("No Kontrak sudah terdaftar!", "Error", Messagebox.OK, Messagebox.ERROR);
+        if (!SecurityUtil.isAdmin()) {
+            org.zkoss.zul.Messagebox.show("Access denied.");
             return;
         }
         Nasabah nasabah = new Nasabah();
-        // Validasi sisa hutang tidak boleh kurang dari 0
-        if (sisaHutang == null || sisaHutang < 0) {
-            sisaHutang = 0d;
-        }
         nasabah.setNama(namaNasabah);
         nasabah.setNoKontrak(noKontrak);
         nasabah.setTotalHutang(totalHutang);
         nasabah.setSisaHutang(sisaHutang);
-        // Status otomatis
-        if (sisaHutang == 0) {
-            nasabah.setStatus("Lunas");
-        } else {
-            nasabah.setStatus("Belum Lunas");
-        }
+        nasabah.setStatus(status);
         nasabah.setCabang(cabang);
         nasabah.setNotelpon(notelpon);
         nasabah.setEmail(email);
         nasabah.setAlamat(alamat);
-        // Validasi input wajib
-        if (namaNasabah == null || namaNasabah.trim().isEmpty()) {
-            Messagebox.show("Nama Nasabah wajib diisi!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        if (namaNasabah.trim().length() < 3) {
-            Messagebox.show("Nama Nasabah minimal 3 karakter!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        if (!namaNasabah.matches("^[A-Za-z\\s.'-]{3,}$")) {
-            Messagebox.show("Nama Nasabah hanya boleh huruf, spasi, titik, apostrof, dan strip!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        if (noKontrak == null || noKontrak.trim().isEmpty()) {
-            Messagebox.show("No Kontrak wajib diisi!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        if (totalHutang == null || totalHutang < 0) {
-            Messagebox.show("Total Hutang wajib diisi dan tidak boleh kurang dari 0!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        if (sisaHutang == null || sisaHutang < 0) {
-            Messagebox.show("Sisa Hutang wajib diisi dan tidak boleh kurang dari 0!", "Error", Messagebox.OK, Messagebox.ERROR);
-            sisaHutang = 0d;
-            return;
-        }
-        if (cabang == null || cabang.trim().isEmpty()) {
-            Messagebox.show("Cabang wajib diisi!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        // Validasi email menggunakan regex umum
-        if (email != null && !email.trim().isEmpty() && !email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-            Messagebox.show("Format email tidak valid!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
-        // Validasi nomor telepon Indonesia (08xx... atau +628xx...)
-        if (notelpon != null && !notelpon.trim().isEmpty() && !notelpon.matches("^(\\+62|62|0)8[1-9][0-9]{6,10}$")) {
-            Messagebox.show("Format nomor telepon Indonesia tidak valid!", "Error", Messagebox.OK, Messagebox.ERROR);
-            return;
-        }
         nasabahService.saveNasabah(nasabah);
         nasabahListModel.add(nasabah);
         setAddDialogVisible(false);
@@ -195,19 +220,13 @@ public class MyViewModel {
     }
 
     @Command("editSisaHutang")
-    @NotifyChange({"selectedNasabah", "detailDialogVisible"})
+    @NotifyChange({"nasabahListModel", "detailDialogVisible"})
     public void editSisaHutang() {
+        if (!SecurityUtil.isAdmin()) {
+            org.zkoss.zul.Messagebox.show("Access denied.");
+            return;
+        }
         if (selectedNasabah != null) {
-            // Validasi sisa hutang tidak boleh kurang dari 0
-            if (selectedNasabah.getSisaHutang() < 0) {
-                selectedNasabah.setSisaHutang(0d);
-            }
-            // Update status otomatis
-            if (selectedNasabah.getSisaHutang() == 0) {
-                selectedNasabah.setStatus("Lunas");
-            } else {
-                selectedNasabah.setStatus("Belum Lunas");
-            }
             nasabahService.updateNasabah(selectedNasabah);
             nasabahListModel.clear();
             nasabahListModel.addAll(nasabahService.getAllNasabah());
@@ -229,13 +248,16 @@ public class MyViewModel {
     }
 
     @Command("deleteNasabah")
-    @NotifyChange({"nasabahListModel", "deleteDialogVisible", "selectedNasabah"})
+    @NotifyChange({"nasabahListModel", "deleteDialogVisible"})
     public void deleteNasabah() {
+        if (!SecurityUtil.isAdmin()) {
+            org.zkoss.zul.Messagebox.show("Access denied.");
+            return;
+        }
         if (selectedNasabah != null) {
             nasabahService.deleteNasabah(selectedNasabah.getNoKontrak());
             nasabahListModel.remove(selectedNasabah);
             setDeleteDialogVisible(false);
-            selectedNasabah = null;
         }
     }
 

@@ -19,15 +19,15 @@
                     <label value="@load(each.status)"/>
                     <hlayout>
                         <button iconSclass="z-icon-search" sclass="elegant-button" tooltiptext="View Details" onClick="@command(&apos;showDetail&apos;, nasabah=each)"/>
-                        <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command(&apos;showDeleteConfirm&apos;, nasabah=each)"/>
+                        <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command(&apos;showDeleteConfirm&apos;, nasabah=each)" visible="@load(vm.isAdmin())"/>
                     </hlayout>
                 </row>
             </template>
         </grid><!-- Tombol Tambah Nasabah -->
         <div align="right" style="margin-top: 15px;">
-            <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command(&apos;showAddDialog&apos;)"/>
+            <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command(&apos;showAddDialog&apos;)" visible="@load(vm.isAdmin())"/>
         </div><!-- Add Dialog -->
-        <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command('closeAddDialog')">
+        <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command(&apos;closeAddDialog&apos;)">
             <vlayout spacing="10px">
                 <grid>
                     <rows>
@@ -73,8 +73,8 @@
                         </row>
                         <row>
                             <hlayout>
-                                <button label="Batal" onClick="@command('closeAddDialog')"/>
-                                <button label="Tambah" onClick="@command('tambahNasabah')"/>
+                                <button label="Batal" onClick="@command(&apos;closeAddDialog&apos;)"/>
+                                <button label="Tambah" onClick="@command(&apos;tambahNasabah&apos;)" visible="@load(vm.isAdmin())"/>
                             </hlayout>
                         </row>
                     </rows>
@@ -129,7 +129,7 @@
                 </grid>
                 <hlayout>
                     <button label="Tutup" onClick="@command(&apos;closeDetailDialog&apos;)"/>
-                    <button label="Simpan" onClick="@command(&apos;editSisaHutang&apos;)"/>
+                    <button label="Simpan" onClick="@command(&apos;editSisaHutang&apos;)" visible="@load(vm.isAdmin())"/>
                 </hlayout>
             </vlayout>
         </window><!-- Delete Confirmation -->
@@ -137,7 +137,7 @@
             <vlayout spacing="10px">
                 <label value="Apakah Anda yakin ingin menghapus data ini?"/>
                 <hlayout>
-                    <button label="Ya" onClick="@command(&apos;deleteNasabah&apos;)"/>
+                    <button label="Ya" onClick="@command(&apos;deleteNasabah&apos;)" visible="@load(vm.isAdmin())"/>
                     <button label="Tidak" onClick="@command(&apos;closeDeleteDialog&apos;)"/>
                 </hlayout>
             </vlayout>
