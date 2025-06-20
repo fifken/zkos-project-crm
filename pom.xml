@@ -24,6 +24,10 @@
     </licenses>
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+        <repository>
             <id>ZK CE</id>
             <name>ZK CE Repository</name>
             <url>https://mavensync.zkoss.org/maven2</url>

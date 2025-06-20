@@ -32,6 +32,15 @@ public class Nasabah {
     @Column(nullable = false)
     private String cabang;
 
+    @Column(length = 20)
+    private String notelpon;
+
+    @Column(length = 100)
+    private String email;
+
+    @Column(length = 255)
+    private String alamat;
+
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -47,4 +56,10 @@ public class Nasabah {
     public void setStatus(String status) { this.status = status; }
     public String getCabang() { return cabang; }
     public void setCabang(String cabang) { this.cabang = cabang; }
+    public String getNotelpon() { return notelpon; }
+    public void setNotelpon(String notelpon) { this.notelpon = notelpon; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getAlamat() { return alamat; }
+    public void setAlamat(String alamat) { this.alamat = alamat; }
 }
