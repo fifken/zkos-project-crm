@@ -1,49 +1,39 @@
 package com.zkos.crm.acl.services;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.zkos.crm.acl.entity.User;
 
-@Service
-@Transactional
-public class UserServiceImpl implements UserDao {
+@Service("userService")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class UserServiceImpl implements UserDetailsService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+  @Autowired
+  UserDao userDao;
 
-    @Override
-    public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                .setParameter("username", username)
-                .getResultList();
-        return users.isEmpty() ? null : users.get(0);
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    try {
+      User user = userDao.get(username);
+      Set<GrantedAuthority> authorities = user.getRoles()
+          .stream()
+          .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+      return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      throw new RuntimeException("Invalid Login");
     }
 
-    @Override
-    public List<User> findAll() {
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
-    }
-
-    @Override
-    public void save(User user) {
-        if (user.getId() == null) {
-            entityManager.persist(user);
-        } else {
-            entityManager.merge(user);
-        }
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        User user = entityManager.find(User.class, id);
-        if (user != null) {
-            entityManager.remove(user);
-        }
-    }
+  }
 }

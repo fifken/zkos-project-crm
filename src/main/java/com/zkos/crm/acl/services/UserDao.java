@@ -1,16 +1,36 @@
 package com.zkos.crm.acl.services;
 
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zkos.crm.acl.entity.User;
 
-public interface UserDao {
+@Repository
+public class UserDao {
 
-    User findByUsername(String username);
+    @PersistenceContext
+    private EntityManager em;
 
-    List<User> findAll();
+    @Transactional(readOnly = true)
+    public User get(String username) throws NoResultException {
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+        query.setParameter("username", username);
+        return (User) query.getSingleResult();
+    }
 
-    void save(User user);
-
-    void deleteById(Long id);
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        try {
+            Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            query.setParameter("username", username);
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
