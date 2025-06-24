@@ -21,15 +21,16 @@
                         <label value="@load(each.totalHutang) @converter('formatedNumber', format='###,##0')"/>
                         <label value="@load(each.sisaHutang) @converter('formatedNumber', format='###,##0')"/>
                         <label value="@load(each.status)"/>
-                        <hlayout>
-                            <button iconSclass="z-icon-search" sclass="elegant-button" tooltiptext="View Details" onClick="@command('showDetail', nasabah=each)"/>
-                            <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command('showDeleteConfirm', nasabah=each)" visible="@load(vm.isAdmin())"/>
+                        <hlayout class="action-buttons">
+                            <button sclass="action-btn view-btn" label="View" onClick="@command('showDetail', nasabah=each)"/>
+                            <button sclass="action-btn delete-btn" label="Delete" onClick="@command('showDeleteConfirm', nasabah=each)" visible="@load(vm.isAdmin())"/>
                         </hlayout>
                     </row>
                 </template>
-            </grid><!-- Tombol Tambah Nasabah -->
-            <div align="right" style="margin-top: 15px;">
-                <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command('showAddDialog')" visible="@load(vm.isAdmin())"/>
+            </grid>
+            <div class="create-btn-wrapper" visible="@load(vm.isAdmin())">
+                <button iconSclass="z-icon-plus" sclass="fab-create-btn" tooltiptext="Tambah Nasabah" onClick="@command('showAddDialog')"/>
+                <span class="fab-label">Add New</span>
             </div><!-- Add Dialog -->
             <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command('closeAddDialog')">
                 <vlayout spacing="10px">
