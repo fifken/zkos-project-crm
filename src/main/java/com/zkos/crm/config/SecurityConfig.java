@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login.zul")
                 .defaultSuccessUrl("/index.zul")
+                .failureUrl("/login.zul?error=true")
                 .and()
                 .logout()
                 .logoutUrl("/logout")

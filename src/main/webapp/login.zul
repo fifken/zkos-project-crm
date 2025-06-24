@@ -33,6 +33,6 @@
             </div>
             <button type="submit" label="Login" width="100%" style="margin-top:18px;"/>
         </h:form>
-        <label value="Invalid username or password" style="color: red; margin-top:10px;" visible="${param.error != null}"/>
+        <label value="Invalid username or password" style="color: red; margin-top:10px;" visible="${not empty param.error}"/>
     </div>
 </zk>
