@@ -1,0 +1,134 @@
+/* style.css - Custom styling for ZKoss CRM */
+
+body, .z-window, .z-div, .z-panel {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6fb;
+}
+
+.login-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 32px 36px 28px 36px;
+    max-width: 440px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-title {
+    font-size: 1.7em;
+    font-weight: 600;
+    color: #2d3a4b;
+    margin-bottom: 18px;
+}
+
+.z-textbox, .z-bandbox, .z-combobox {
+    border-radius: 6px;
+    border: 1px solid #d1d9e6;
+    padding: 8px 10px;
+    font-size: 1em;
+    margin-bottom: 14px;
+}
+
+.z-button {
+    background: linear-gradient(90deg, #4f8cff 0%, #2355d6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 0;
+    font-size: 1em;
+    font-weight: 500;
+    width: 100%;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.z-button:hover {
+    background: linear-gradient(90deg, #2355d6 0%, #4f8cff 100%);
+}
+
+.index-header {
+    background: #2355d6;
+    color: #fff;
+    padding: 18px 32px;
+    font-size: 1.5em;
+    font-weight: 600;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 24px;
+}
+
+.index-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 28px 24px;
+    margin: 0 auto;
+    max-width: 900px;
+}
+
+.table-title {
+    font-size: 1.2em;
+    color: #2d3a4b;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.login-container label[for], .login-container label[style*='display:block'] {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 4px;
+    font-size: 1em;
+    color: #2d3a4b;
+}
+
+.login-container .z-textbox {
+    width: 96% !important;
+    min-width: 220px;
+    max-width: 340px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.password-input-wrapper {
+    width: 100%;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.password-input-wrapper .z-textbox {
+    flex: 1 1 auto;
+    margin-right: 8px;
+    padding-right: 10px !important;
+}
+.password-input-wrapper #toggle-pwd-icon {
+    position: static;
+    right: unset;
+    top: unset;
+    margin-left: 0;
+    cursor: pointer;
+    font-size: 1.3em;
+    color: #888;
+    z-index: 2;
+    transition: color 0.2s;
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+.password-input-wrapper #toggle-pwd-icon:hover {
+    color: #2355d6;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .login-container, .index-content {
+        padding: 16px 8px;
+        max-width: 98vw;
+    }
+    .index-header {
+        padding: 12px 8px;
+        font-size: 1.1em;
+    }
+}

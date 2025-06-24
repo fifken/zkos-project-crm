@@ -1,26 +1,38 @@
 <zk xmlns:h="native">
-    <window title="Login" border="normal" width="300px" height="500px" closable="false" position="center">
-        <vlayout spacing="10px" hflex="min" vflex="min">
-            <label value="Please login:"/>
-            <!-- Use h:form to render native HTML form -->
-            <h:form action="${pageContext.request.contextPath}/login.zul" method="POST">
-                <grid>
-                    <rows>
-                        <row>
-                            <label value="Username:"/>
-                            <textbox name="username" hflex="1" placeholder="Enter username"/>
-                        </row>
-                        <row>
-                            <label value="Password:"/>
-                            <textbox  name="password" type="password" hflex="1" placeholder="Enter password"/>
-                        </row>
-                        <row>
-                            <button type="submit" label="Login" width="100%"/>
-                        </row>
-                    </rows>
-                </grid>
-            </h:form>
-            <label value="Invalid username or password" style="color: red;" visible="${param.error != null}"/>
-        </vlayout>
-    </window>
+    <style src="/style.css"/>
+    <script type="text/javascript">
+        function showPassword() {
+            var pwd = document.getElementsByName('password')[0];
+            var icon = document.getElementById('toggle-pwd-icon');
+            if (pwd) {
+                pwd.type = 'text';
+                icon.className = 'z-icon-eye-slash';
+            }
+        }
+        function hidePassword() {
+            var pwd = document.getElementsByName('password')[0];
+            var icon = document.getElementById('toggle-pwd-icon');
+            if (pwd) {
+                pwd.type = 'password';
+                icon.className = 'z-icon-eye';
+            }
+        }
+    </script>
+    <div class="login-container">
+        <label class="login-title" value="Login CRM"/>
+        <h:form action="${pageContext.request.contextPath}/login.zul" method="POST" style="width:100%">
+            <label value="Username:" style="margin-bottom:4px;display:block"/>
+            <textbox name="username" hflex="1" placeholder="Enter username" style="width:100%"/>
+            <label value="Password:" style="margin-bottom:4px;display:block;margin-top:12px;"/>
+            <div class="password-input-wrapper">
+                <textbox name="password" type="password" hflex="1" placeholder="Enter password" style="width:100%;" mold="default"/>
+                <h:span id="toggle-pwd-icon" class="z-icon-eye"
+                    onmousedown="showPassword()" onmouseup="hidePassword()" onmouseleave="hidePassword()"
+                    ontouchstart="showPassword()" ontouchend="hidePassword()"
+                ></h:span>
+            </div>
+            <button type="submit" label="Login" width="100%" style="margin-top:18px;"/>
+        </h:form>
+        <label value="Invalid username or password" style="color: red; margin-top:10px;" visible="${param.error != null}"/>
+    </div>
 </zk>

@@ -1,146 +1,151 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/template/template.zul"?>
 <zk>
-    <window apply="org.zkoss.bind.BindComposer" viewModel="@id(&apos;vm&apos;) @init(&apos;com.zkos.crm.MyViewModel&apos;)" validationMessages="@id(&apos;vmsgs&apos;)" width="100%" vflex="1" self="@define(content)"><!-- Tabel Data Hutang Piutang -->
-        <grid width="100%" model="@load(vm.nasabahListModel)" mold="paging" pageSize="10">
-            <columns>
-                <column label="Nama"/>
-                <column label="No Kontrak"/>
-                <column label="Total Hutang"/>
-                <column label="Sisa Hutang"/>
-                <column label="Status"/>
-                <column label="Aksi"/>
-            </columns>
-            <template name="model">
-                <row>
-                    <label value="@load(each.nama)"/>
-                    <label value="@load(each.noKontrak)"/>
-                    <label value="@load(each.totalHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
-                    <label value="@load(each.sisaHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
-                    <label value="@load(each.status)"/>
+    <style src="/style.css"/>
+    <div class="index-header">CRM Data Hutang Piutang</div>
+    <div class="index-content">
+        <window apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.zkos.crm.MyViewModel')" validationMessages="@id('vmsgs')" width="100%" vflex="1" self="@define(content)"><!-- Tabel Data Hutang Piutang -->
+            <label class="table-title" value="Daftar Nasabah"/>
+            <grid width="100%" model="@load(vm.nasabahListModel)" mold="paging" pageSize="10">
+                <columns>
+                    <column label="Nama"/>
+                    <column label="No Kontrak"/>
+                    <column label="Total Hutang"/>
+                    <column label="Sisa Hutang"/>
+                    <column label="Status"/>
+                    <column label="Aksi"/>
+                </columns>
+                <template name="model">
+                    <row>
+                        <label value="@load(each.nama)"/>
+                        <label value="@load(each.noKontrak)"/>
+                        <label value="@load(each.totalHutang) @converter('formatedNumber', format='###,##0')"/>
+                        <label value="@load(each.sisaHutang) @converter('formatedNumber', format='###,##0')"/>
+                        <label value="@load(each.status)"/>
+                        <hlayout>
+                            <button iconSclass="z-icon-search" sclass="elegant-button" tooltiptext="View Details" onClick="@command('showDetail', nasabah=each)"/>
+                            <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command('showDeleteConfirm', nasabah=each)" visible="@load(vm.isAdmin())"/>
+                        </hlayout>
+                    </row>
+                </template>
+            </grid><!-- Tombol Tambah Nasabah -->
+            <div align="right" style="margin-top: 15px;">
+                <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command('showAddDialog')" visible="@load(vm.isAdmin())"/>
+            </div><!-- Add Dialog -->
+            <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command('closeAddDialog')">
+                <vlayout spacing="10px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Nama Nasabah:" width="120px"/>
+                                <textbox value="@bind(vm.namaNasabah)" placeholder="Contoh: Joe" width="180px"/>
+                            </row>
+                            <row>
+                                <label value="No Kontrak:" width="120px"/>
+                                <textbox value="@bind(vm.noKontrak)" placeholder="Contoh: 1234567890" width="180px"/>
+                            </row>
+                            <row>
+                                <label value="Total Hutang:" width="120px"/>
+                                <doublebox value="@bind(vm.totalHutang)" placeholder="Contoh: 1000000" format="###,##0" width="120px"/>
+                            </row>
+                            <row>
+                                <label value="Sisa Hutang:" width="120px"/>
+                                <doublebox value="@bind(vm.sisaHutang)" placeholder="Contoh: 500000" format="###,##0" width="120px"/>
+                            </row>
+                            <row>
+                                <label value="Cabang:" width="120px"/>
+                                <combobox value="@bind(vm.cabang)" width="120px">
+                                    <comboitem label="JKT" value="JKT"/>
+                                    <comboitem label="SMG" value="SMG"/>
+                                    <comboitem label="SBY" value="SBY"/>
+                                    <comboitem label="BDG" value="BDG"/>
+                                    <comboitem label="DPS" value="DPS"/>
+                                    <comboitem label="MLG" value="MLG"/>
+                                    <comboitem label="MDN" value="MDN"/>
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value="No Telpon:" width="120px"/>
+                                <textbox value="@bind(vm.notelpon)" placeholder="Contoh: 081234567890" width="180px"/>
+                            </row>
+                            <row>
+                                <label value="Email:" width="120px"/>
+                                <textbox value="@bind(vm.email)" placeholder="Contoh: joe@email.com" width="180px"/>
+                            </row>
+                            <row>
+                                <label value="Alamat:" width="120px"/>
+                                <textbox value="@bind(vm.alamat)" placeholder="Contoh: Jl. Sudirman No. 1" width="250px"/>
+                            </row>
+                            <row>
+                                <hlayout>
+                                    <button label="Batal" onClick="@command('closeAddDialog')"/>
+                                    <button label="Tambah" onClick="@command('tambahNasabah')" visible="@load(vm.isAdmin())"/>
+                                </hlayout>
+                            </row>
+                        </rows>
+                    </grid>
+                </vlayout>
+            </window><!-- Detail Dialog -->
+            <window id="detailDialog" title="Detail Nasabah" visible="@bind(vm.detailDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command('closeDetailDialog')">
+                <vlayout spacing="10px">
+                    <grid>
+                        <columns>
+                            <column width="120px"/>
+                            <column/>
+                        </columns>
+                        <rows>
+                            <row>
+                                <label value="Nama:"/>
+                                <label value="@load(vm.selectedNasabah.nama)"/>
+                            </row>
+                            <row>
+                                <label value="No Kontrak:"/>
+                                <label value="@load(vm.selectedNasabah.noKontrak)"/>
+                            </row>
+                            <row>
+                                <label value="Total Hutang:"/>
+                                <label value="@load(vm.selectedNasabah.totalHutang) @converter('formatedNumber', format='###,##0')"/>
+                            </row>
+                            <row>
+                                <label value="Sisa Hutang:"/>
+                                <doublebox value="@bind(vm.selectedNasabah.sisaHutang)" format="###,##0"/>
+                            </row>
+                            <row>
+                                <label value="Status:"/>
+                                <label value="@load(vm.selectedNasabah.status)"/>
+                            </row>
+                            <row>
+                                <label value="Cabang:"/>
+                                <label value="@load(vm.selectedNasabah.cabang)"/>
+                            </row>
+                            <row>
+                                <label value="No Telpon:"/>
+                                <label value="@load(vm.selectedNasabah.notelpon)"/>
+                            </row>
+                            <row>
+                                <label value="Email:"/>
+                                <label value="@load(vm.selectedNasabah.email)"/>
+                            </row>
+                            <row>
+                                <label value="Alamat:"/>
+                                <label value="@load(vm.selectedNasabah.alamat)"/>
+                            </row>
+                        </rows>
+                    </grid>
                     <hlayout>
-                        <button iconSclass="z-icon-search" sclass="elegant-button" tooltiptext="View Details" onClick="@command(&apos;showDetail&apos;, nasabah=each)"/>
-                        <button iconSclass="z-icon-trash" sclass="elegant-button" tooltiptext="Delete" onClick="@command(&apos;showDeleteConfirm&apos;, nasabah=each)" visible="@load(vm.isAdmin())"/>
+                        <button label="Tutup" onClick="@command('closeDetailDialog')"/>
+                        <button label="Simpan" onClick="@command('editSisaHutang')" visible="@load(vm.isAdmin())"/>
                     </hlayout>
-                </row>
-            </template>
-        </grid><!-- Tombol Tambah Nasabah -->
-        <div align="right" style="margin-top: 15px;">
-            <button iconSclass="z-icon-plus" sclass="elegant-button" tooltiptext="Tambah Nasabah" onClick="@command(&apos;showAddDialog&apos;)" visible="@load(vm.isAdmin())"/>
-        </div><!-- Add Dialog -->
-        <window id="addDialog" title="Tambah Nasabah Baru" visible="@load(vm.addDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command(&apos;closeAddDialog&apos;)">
-            <vlayout spacing="10px">
-                <grid>
-                    <rows>
-                        <row>
-                            <label value="Nama Nasabah:" width="120px"/>
-                            <textbox value="@bind(vm.namaNasabah)" placeholder="Contoh: Joe" width="180px"/>
-                        </row>
-                        <row>
-                            <label value="No Kontrak:" width="120px"/>
-                            <textbox value="@bind(vm.noKontrak)" placeholder="Contoh: 1234567890" width="180px"/>
-                        </row>
-                        <row>
-                            <label value="Total Hutang:" width="120px"/>
-                            <doublebox value="@bind(vm.totalHutang)" placeholder="Contoh: 1000000" format="###,##0" width="120px"/>
-                        </row>
-                        <row>
-                            <label value="Sisa Hutang:" width="120px"/>
-                            <doublebox value="@bind(vm.sisaHutang)" placeholder="Contoh: 500000" format="###,##0" width="120px"/>
-                        </row>
-                        <row>
-                            <label value="Cabang:" width="120px"/>
-                            <combobox value="@bind(vm.cabang)" width="120px">
-                                <comboitem label="JKT" value="JKT"/>
-                                <comboitem label="SMG" value="SMG"/>
-                                <comboitem label="SBY" value="SBY"/>
-                                <comboitem label="BDG" value="BDG"/>
-                                <comboitem label="DPS" value="DPS"/>
-                                <comboitem label="MLG" value="MLG"/>
-                                <comboitem label="MDN" value="MDN"/>
-                            </combobox>
-                        </row>
-                        <row>
-                            <label value="No Telpon:" width="120px"/>
-                            <textbox value="@bind(vm.notelpon)" placeholder="Contoh: 081234567890" width="180px"/>
-                        </row>
-                        <row>
-                            <label value="Email:" width="120px"/>
-                            <textbox value="@bind(vm.email)" placeholder="Contoh: joe@email.com" width="180px"/>
-                        </row>
-                        <row>
-                            <label value="Alamat:" width="120px"/>
-                            <textbox value="@bind(vm.alamat)" placeholder="Contoh: Jl. Sudirman No. 1" width="250px"/>
-                        </row>
-                        <row>
-                            <hlayout>
-                                <button label="Batal" onClick="@command(&apos;closeAddDialog&apos;)"/>
-                                <button label="Tambah" onClick="@command(&apos;tambahNasabah&apos;)" visible="@load(vm.isAdmin())"/>
-                            </hlayout>
-                        </row>
-                    </rows>
-                </grid>
-            </vlayout>
-        </window><!-- Detail Dialog -->
-        <window id="detailDialog" title="Detail Nasabah" visible="@bind(vm.detailDialogVisible)" width="700px" mode="modal" closable="false" onClose="@command(&apos;closeDetailDialog&apos;)">
-            <vlayout spacing="10px">
-                <grid>
-                    <columns>
-                        <column width="120px"/>
-                        <column/>
-                    </columns>
-                    <rows>
-                        <row>
-                            <label value="Nama:"/>
-                            <label value="@load(vm.selectedNasabah.nama)"/>
-                        </row>
-                        <row>
-                            <label value="No Kontrak:"/>
-                            <label value="@load(vm.selectedNasabah.noKontrak)"/>
-                        </row>
-                        <row>
-                            <label value="Total Hutang:"/>
-                            <label value="@load(vm.selectedNasabah.totalHutang) @converter(&apos;formatedNumber&apos;, format=&apos;###,##0&apos;)"/>
-                        </row>
-                        <row>
-                            <label value="Sisa Hutang:"/>
-                            <doublebox value="@bind(vm.selectedNasabah.sisaHutang)" format="###,##0"/>
-                        </row>
-                        <row>
-                            <label value="Status:"/>
-                            <label value="@load(vm.selectedNasabah.status)"/>
-                        </row>
-                        <row>
-                            <label value="Cabang:"/>
-                            <label value="@load(vm.selectedNasabah.cabang)"/>
-                        </row>
-                        <row>
-                            <label value="No Telpon:"/>
-                            <label value="@load(vm.selectedNasabah.notelpon)"/>
-                        </row>
-                        <row>
-                            <label value="Email:"/>
-                            <label value="@load(vm.selectedNasabah.email)"/>
-                        </row>
-                        <row>
-                            <label value="Alamat:"/>
-                            <label value="@load(vm.selectedNasabah.alamat)"/>
-                        </row>
-                    </rows>
-                </grid>
-                <hlayout>
-                    <button label="Tutup" onClick="@command(&apos;closeDetailDialog&apos;)"/>
-                    <button label="Simpan" onClick="@command(&apos;editSisaHutang&apos;)" visible="@load(vm.isAdmin())"/>
-                </hlayout>
-            </vlayout>
-        </window><!-- Delete Confirmation -->
-        <window id="deleteDialog" title="Konfirmasi Hapus" visible="@load(vm.deleteDialogVisible)" width="450px" mode="modal" closable="false" onClose="@command(&apos;closeDeleteDialog&apos;)">
-            <vlayout spacing="10px">
-                <label value="Apakah Anda yakin ingin menghapus data ini?"/>
-                <hlayout>
-                    <button label="Ya" onClick="@command(&apos;deleteNasabah&apos;)" visible="@load(vm.isAdmin())"/>
-                    <button label="Tidak" onClick="@command(&apos;closeDeleteDialog&apos;)"/>
-                </hlayout>
-            </vlayout>
+                </vlayout>
+            </window><!-- Delete Confirmation -->
+            <window id="deleteDialog" title="Konfirmasi Hapus" visible="@load(vm.deleteDialogVisible)" width="450px" mode="modal" closable="false" onClose="@command('closeDeleteDialog')">
+                <vlayout spacing="10px">
+                    <label value="Apakah Anda yakin ingin menghapus data ini?"/>
+                    <hlayout>
+                        <button label="Ya" onClick="@command('deleteNasabah')" visible="@load(vm.isAdmin())"/>
+                        <button label="Tidak" onClick="@command('closeDeleteDialog')"/>
+                    </hlayout>
+                </vlayout>
+            </window>
         </window>
-    </window>
+    </div>
 </zk>
